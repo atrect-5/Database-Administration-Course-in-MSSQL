@@ -1,0 +1,9 @@
+Abreviaciones: 
+	-> SGBD : Sistema de Gestión de Bases de Datos
+	-> MSSQL : Microsoft SQL Server
+		Es un -> RDBMS: sistema de gestión de bases de datos relacional
+	-> SSMS : SQL Server Management Studio (herramienta gráfica que se usa para interactuar con MSSQL.)
+	-> DBMS : DataBase managment system
+
+Primero es necesario instalar el motor de bases de datos MSSQL, despues se instala SSMS y Azure Data Studio para realizar todas las manipulaciones necesarias.
+(Azure Data Studio es para Mac o Linux, ya que estos SO no cuentan con SSMS)
