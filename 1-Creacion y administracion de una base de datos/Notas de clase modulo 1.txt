@@ -1,0 +1,51 @@
+Abreviaciones: 
+	-> SGBD : Sistema de Gestión de Bases de Datos
+	-> MSSQL : Microsoft SQL Server
+		Es un -> RDBMS: sistema de gestión de bases de datos relacional
+	-> SSMS : SQL Server Management Studio (herramienta gráfica que se usa para interactuar con MSSQL.)
+	-> DBMS : DataBase managment system
+
+Primero es necesario instalar el motor de bases de datos MSSQL, despues se instala SSMS y Azure Data Studio para realizar todas las manipulaciones necesarias.
+(Azure Data Studio es para Mac o Linux, ya que estos SO no cuentan con SSMS)
+
+/////////////////// Creacion de base de datos ///////////////////
+
+Al iniciar SSMS, te pedira que te autentiques para poder acceder. Puedes usar los tipos de autenticacion que seleccionaste cuando instalaste SSMS (El mas comun y facil es por medio de Autenticacion por Sesion de Windows o por medio de autenticacion SQL, que requiere de la contraseña y usuario).
+Tambien te permitira cambiar el servidor en donde se encuentra el motor de la base de datos (Puede ser de manera local con ayuda de MSSQL o en la nube).
+NOTA: Si el servidor es local, debes colocar que confias en el certificado de seguridad para que te permita conectarte de manera segura al servidor, esto por que el certificado local no estaria firmado por una compañia "confiable" (ya que el certificado sera firmado por tu equipo).
+
+Para crear una base de datos en SSMS, se puede ir al explorador de objetos, dar clic derecho en 'Bases de datos', despues se da clic en 'Nueva Base de Datos...'.
+Aqui puede modificar ciertas propiedades de la base de datos, como por ejemplo, el propietario de la base de datos (Como propietario predeterminado sera el usuario con el que se accedio a SSMS) y otras configuraciones extra que es mas complejo configurar cuando se crea con comandos SQL.
+Tambien nos permite ver informacion sobre los FileGroups.
+FileGroups:
+Sistema de archivos
+	Data File:
+		Contiene toda la informacion como: tablas, indices, vistas, etc.
+	Log Files:
+		Contiene los logs de la base de datos (nos permite recuperar transacciones en la base de datos).
+Una vez creada la base de datos, para empezar a utilizarla, en la parte superior aparece un selector con la base de datos actual, si das clic te permitira cambiar a la base de datos que prefieras.
+Si quieres eliminar la base de datos creada, debes desplegar las bases de datos existentes en el directorio y dar clic derecho sobre la base de datos que deseas eliminar, despues dar clic en la opcion 'Eliminar'. Esto abrira una ventana con algunas opciones para eliminar la base de datos, como si quieres cerrar la conexion (en caso de que estes conectado a esa base de datos) y eliminar la base de datos con todos los logs de recuperacion de datos. Despues debes dar clic en la parte inferior derecha en aceptar para eliminar la base de datos.
+Puedes tambien cambiar el nombre de la base de datos si le das clic derecho y seleccionas 'Cambiar Nombre'.
+
+NOTA: Si al crear la base de datos no aparece en el directorio de SSMS en '+Bases de datos', puedes dar clic derecho sobre el directorio y luego clic en 'Actualizar' o dar clic en el icono de una flecha en forma de circulo en la parte superior del explorador de objetos.
+
+Para crear una base de datos con lenguaje SQL, necesitas crear una nueva consulta (con la opcion 'Nueva consulta'), escribes la consulta y luego puede ejecutarla precionando el boton de 'Ejecutar' o con la tecla 'F5'.
+	->	CREATE DATABASE <nombreDB>
+Una vez creada, para hacer la conexion a esa base de datos y utilizarla:
+	-> 	USE <nombreDB>
+Si quieres eliminar una base de datos, puedes hacerlo con este comando:
+	->	DROP DATABASE <nombreDB>
+
+NOTA: Los simbolos '<' y '>' indican que es un nombre que puede variar, pero no se incluyen en la consulta.
+TIP: Puedes ejecutar solo una parte del archivo de consulta .sql, solo tienes que seleccionar con el raton la parte que quieres ejecutar y solo se ejecutara esa en lugar del archivo completo.
+
+Al ejecutar un comando, en la parte inferior se abrira un cuadro de dialogo, en el cual apareceran los logs de los comandos que ejecutemos. Aqui aparece tanto la hora en la que se completo la consulta como los errores o mensajes de exito relacionados.
+
+
+
+
+
+
+
+
+
