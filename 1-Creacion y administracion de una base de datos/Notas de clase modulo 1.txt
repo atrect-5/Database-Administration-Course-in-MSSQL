@@ -42,6 +42,26 @@ TIP: Puedes ejecutar solo una parte del archivo de consulta .sql, solo tienes qu
 Al ejecutar un comando, en la parte inferior se abrira un cuadro de dialogo, en el cual apareceran los logs de los comandos que ejecutemos. Aqui aparece tanto la hora en la que se completo la consulta como los errores o mensajes de exito relacionados.
 
 
+/////////////////// Configuración de instancias ///////////////////
+
+Para ver las propiedades de nuestro servidor, podemos ir al panel 'Explorador de Objetos', aqui, el directorio raiz que aparece es la instancia del servidor, si damos clic izquierdo en esta instancia, podemos ir a las propiedades dando clic en 'Propiedades'.
+Aqui tendremos varias secciones (en la parte izquierda):
+	General: Nos muestra la informacion general de donde esta corriendo nuestra instancia de SQL Server (Producto, SO, Version, Idioma, etc.)
+	Memoria: Nos permite manipular la cantidad de memoria minima y maxima que se asignara a SQL Server
+	Procesadores: Nos permite manipular la cantidad de procesadores que SQL Server puede usar
+	Seguridad: Nos permite cambiar el modo de autenticacion (Windows o SQL Server y Windows) y administrar los inicios de sesion
+	Conexiones: Nos permite cambiar la cantidad maxima de conexiones que puede tener SQL Server y otras opciones de conexion
+	Configuraciones de bases de datos: Nos permite cambiar la configuracion predeterminada de las bases de datos que creemos (como el tamaño inicial, crecimiento, ubicacion de los archivos, Respaldo, etc.)
+	Opciones avanzadas: Nos permite cambiar opciones avanzadas de SQL Server (como el nivel de compatibilidad, configuracion de filestream, etc.)
+	Permisos: Nos permite ver y administrar los permisos de la instancia de SQL Server
+Debajo de las opciones nos aparece el servidor al que estamos conectados y el usuario con el que se realizo la conexion, tambien nos permite ver las 'Propiedades de conexion'.
+
+/////////////////// Conceptos de colación y Unicode ///////////////////
+
+
+
+
+
 
 
 
