@@ -58,10 +58,21 @@ Debajo de las opciones nos aparece el servidor al que estamos conectados y el us
 
 /////////////////// Conceptos de colación y Unicode ///////////////////
 
+Colaciones:
+	Es un conjunto de reglas que determinan como se almacenan y comparan los datos de texto en la base de datos.
+	Define:
+		- Sensibilidad a mayusculas y minusculas (CS: Case Sensitive, CI: Case Insensitive)
+		- Sensibilidad a acentos (AS: Accent Sensitive, AI: Accent Insensitive)
+		- Sensibilidad a Kana (KS: Kana Sensitive, KI: Kana Insensitive) -> Solo para japones
+		- Sensibilidad a ancho (WS: Width Sensitive, WI: Width Insensitive) -> Diferencia entre caracteres de ancho completo y medio ancho
+Unicode:
+	Es un estandar de codificacion de caracteres que permite representar texto de diferentes idiomas y simbolos especiales.
+	Usa 2 bytes (16 bits) para representar cada caracter, lo que permite representar hasta 65,536 caracteres diferentes.
+	Es compatible con la mayoria de los idiomas y simbolos especiales, lo que lo hace ideal para aplicaciones globales.
 
-
-
-
+Estos datos se pueden observar si damos doble clic en 'Explorador de objetos > Bases de datos > Mi Base De Datos', escogemos la opcion de propiedades y vamos a 'General', Hay un apartado de 'Mantenimiento', en donde dice 'Intercalacion', podemos ver el tipo de colacion que utiliza esa base de datos.
+Si entramos a las propiedades de la instancia del servidor, en 'General', tambien podremos ver el tipo de colacion que utiliza la instancia del servidor ('Intercalacion del Servidor'). 
+Todas las bases de datos que se crean dentro de un servidor, usaran la colacion especificada para ese servidor por default, pero se puede cambiar al crear la base de datos. Para crear una base de datos con una colacion diferente, se da clic derecho en 'Explorador de objetos > Bases de datos', se selecciona 'Nueva base de datos', se va a la seccion 'Opciones' y se puede seleccionar la 'Intercalacion' para esa base de datos.
 
 
 
