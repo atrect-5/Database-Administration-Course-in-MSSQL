@@ -74,9 +74,17 @@ Estos datos se pueden observar si damos doble clic en 'Explorador de objetos > B
 Si entramos a las propiedades de la instancia del servidor, en 'General', tambien podremos ver el tipo de colacion que utiliza la instancia del servidor ('Intercalacion del Servidor'). 
 Todas las bases de datos que se crean dentro de un servidor, usaran la colacion especificada para ese servidor por default, pero se puede cambiar al crear la base de datos. Para crear una base de datos con una colacion diferente, se da clic derecho en 'Explorador de objetos > Bases de datos', se selecciona 'Nueva base de datos', se va a la seccion 'Opciones' y se puede seleccionar la 'Intercalacion' para esa base de datos.
 
+/////////////////// Conceptos de seguimiento al servidor ///////////////////
 
+Cuando se instala SQL Server, se instala otra aplicacion junto con esta, llamada 'SQL Server Profiler'. Esta aplicacion nos ayudara a darle seguimiento a nuestro sevidor SQL.
+Para hacer la conexion de SQL Server Profiler a nuestro servidor con nuestra base de datos, debemos dar clic en el primer icono ubicado en la parte superior izquierda (al poner el cursor sobre este icono, debe aparecer "New Trace"). Esto nos abrira una ventana de conexion (similar a cuando abrimos SSMS) en donde colocaremos los datos de nuestro servidor (a cual servidor queremos conectarnos y las credenciales que necesitamos para la conexion).
+Cuando damos clic en conectar, nos aparece una segunda ventana, en donde se pueden configurar las propiedades del seguimiento del servidor, como lo es el nombre del seguimiento (se recomienda que sea especifico la razon del seguimiento), el template del seguimiento que se realizara, si queremos guardar la informacion del rastreo como archivo (se puede seleccionar el tamaño maximo del archivo y la ubicacion de donde se guardara) o como tabla (te permite escoger en cual base de datos se guardara dentro del servidor y el maximo de filas de la tabla), cuando quieres que se detenga el rastreo y los eventos que se incluiran en el seguimiento.
+Esta informacion de seguimiento se puede guardar en un archivo (conviene cuando vamos a guardar demasiada informacion que probablemente consultaremos de otra manera) o en una tabla (conviene cuando vamos a realizar un seguimiento mas especifico de los eventos que queremos rastrear).
+Para empezar el seguimiento, despues de la configuracion, damos clic en 'run' en la parte inferior derecha. Esto nos mostrara una ventana dentro de SQL Server Profiler donde apareceran los datos del rastreo, para ver como lo hace, se puede hacer alguna consulta en SSMS y aparecera en SQL Server Profiler como seguimiento.
 
-
-
+NOTA: Si el seguimiento se guarda en una tabla en la base de datos, puedes hacer la consulta dentro de SSMS
+	->	SELECT * FROM dbo.[Nombre de la tabla que escogiste al crear el seguimiento]
+y te mostrara el seguimiento
+Si el seguimiento se guarda en un archivo, este contendra la extension '.trc' y sera de tipo 'SQL Server Profiler - trace data file'
 
 
