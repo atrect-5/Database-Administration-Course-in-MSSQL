@@ -90,3 +90,49 @@ Si cerramos la ventana de rastreo, podemos volver a arbirla en SQL Server Profil
 
 Cuando ocurre algun evento de los que se selecciono al crear el rastreo de la base de datos, aparecera la informacion en SQL Server Profiler, se guardara tambien en la tabla como nueva entrada y en el archivo.
 Dentro de SQL Server Profiler, en la ventana donde se muestran los datos de seguimiento, al darle clic a alguno de los datos que se muestran, se mostrara mas detalle del 'TextData' en la parte inferior.
+
+/////////////////// Auditar una base de datos ///////////////////
+
+Es un proceso que permite medir, asegurar, monitorear y registrar los accesos a la información almacenada, incluyendo quién accede a los datos, cuándo, desde qué dispositivo o ubicación en la red, qué sentencia SQL se ejecutó y cuál fue el efecto del acceso.
+Se enfoca en rastrear acciones específicas, como modificaciones de datos, cambios en el esquema o acceso a información sensible.
+
+Se puede utilizar SSMS o Transact SQL para realizar la auditoria.
+La auditoria para una instancia de SQL Server, en esta caso, involucra el seguimiento de lo que es el log de eventos que ocurren en nuestro sistema. Tambien lo que es la coleccion de objetos en una simple instancia del servidor o tambien puede ser a nivel de acciones de una base de datos, grupos o acciones de monitoreo.
+
+Para crear una auditoria con SSMS, vamos a ir al explorador de objetos en la parte izquierda y dirijirnos hacia 'Instancia del servidor > Seguridad > Auditorias', donde daremos 'clic derecho > Nueva Auditoria'. 
+Se abrira una ventana, donde especificaremos los datos de la audotoria que realizaremos como son: 
+Nombre de la auditoria (el nombre por default es Auditoria+fecha en la que se creo)
+Retraso de cola (Se refiere a que tan sincronizado esta en milisegundos)
+Que accion realizar si hay un error de registro en la auditoria
+El formato en la que se guardara la auditoria, la ruta, la cantidad maxima de archivos que se pueden almacenar de esa auditoria y el tamaño de esos archivos
+
+Cuando se crea la auditoria, debemos ir a 'Instancia del servidor > Seguridad > Especificaciones de auditoria del servidor', donde usaremos la auditoria que creamos anteriormente, aqui podremos:
+Cambiar el nombre de las especificaciones de la auditoria (el nombre por default es ServerAuditSpecification+fecha en la que se creo)
+Se debe seleccionar la auditoria con la que se trabajara
+Tambien se deben seleccionar las acciones que se auditaran
+
+Despues se debe dar clic derecho sobre la especificacion de auditoria que creamos y debemos dar clic en 'Habilitar especificacion de auditoria de servidor', lo que nos mostrara un cuadro de dialogo mensionando si se habilito
+
+Para crear Auditorias con Transact SQL, se debe crear primero la auditoria con el siguiente comando:
+	->	CREATE SERVER AUDIT <NombreDeLaAuditoria>
+			TO FILE (FILEPATH = '<RutaDondeSeGuardaraLaAuditoria>'); 
+Despues se deben crear las especificaciones de la auditoria con el siguiente comando:
+	->	CREATE SERVER AUDIT SPECIFICATION <NombreDeLaEspecificacionDeLaAuditoria>
+		FOR SERVER AUDIT <NombreDeLaAuditoria>
+		ADD (SUCCESSFUL_LOGIN_GROUP),
+		ADD (FAILED_LOGIN_GROUP);
+Finalmente, se debe habilitar la especificacion de la auditoria con el siguiente comando:
+	->	ALTER SERVER AUDIT <NombreDeLaAuditoria>
+		WITH (STATE = ON);
+
+Para ver los datos registrados en las auditorias, puedes ir abrir el archivo de auditoría con SQL Server Management Studio (SSMS):
+Ve a 'Explorador de objetos > Seguridad > Auditorias'
+Haz clic derecho en la 'auditoría > Ver registros de auditoria' 
+
+
+
+
+
+
+
+
