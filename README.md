@@ -16,7 +16,13 @@ Cada archivo está diseñado para practicar y entender conceptos clave de la adm
 
 ## Modulos
 
-- **`1-Creacion y administracion de una base de datos`**: Este módulo cubre los fundamentos para empezar a trabajar con MSSQL.
+- **`1-Creacion y administracion de una base de datos`**: Este módulo cubre las tareas fundamentales de un administrador de bases de datos. En concreto:
+  - Crear, usar y eliminar bases de datos con comandos T-SQL (`CREATE`, `DROP`).
+  - Configurar las propiedades de una instancia del servidor (memoria, procesadores, seguridad).
+  - Entender qué son las colaciones y su impacto en los datos.
+  - Monitorear la actividad del servidor con **SQL Server Profiler**.
+  - Implementar **Auditorías** para registrar eventos de seguridad, como inicios de sesión fallidos.
+
 
 ## Uso
 1. Abre los archivos `.sql` en SQL Server Management Studio (SSMS) o tu editor SQL favorito.

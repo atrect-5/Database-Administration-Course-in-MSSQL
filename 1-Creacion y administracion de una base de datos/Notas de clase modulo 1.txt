@@ -129,10 +129,9 @@ Para ver los datos registrados en las auditorias, puedes ir abrir el archivo de 
 Ve a 'Explorador de objetos > Seguridad > Auditorias'
 Haz clic derecho en la 'auditoría > Ver registros de auditoria' 
 
+/////////////////// Ver logs del servidor ///////////////////
 
+Aqui podemos ver los logs del servidor de los movimientos que se realizan en el servidor, que nos ayudaran a monitorear y solucionar problemas en SQL Server.
 
-
-
-
-
-
+Si vamos a 'Explorador de objetos > Administracion > Registros de SQL Server' encontraremos varios archivos donde se encuentran los logs del servidor
+Para ver estos logs, debemos dar clic derecho en alguno de estos archivos y dar clic en 'Ver registro de SQL Server', esto nos abre una ventana donde se muestran los logs de ese archivo, pero podemos escoger cual archivo queremos ver (en la parte izquierda de la ventana que se abrio).
