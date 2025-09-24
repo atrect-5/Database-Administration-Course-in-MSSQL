@@ -58,10 +58,30 @@ Ver los inicios de sesion existentes
 
 NOTA: Es importante saber que estos inicios de sesion solo sirven para conectarse a la base de datos, no para manipular nuestras bases de datos.
 
+/////////////////// Gestionar usuarios de base de datos ///////////////////
+
+Para crear un usuario de base de datos por medio de TSQL, se puede hacer de la siguiente manera:
+Crear un usuario de base de datos
+    ->  CREATE USER nombre_usuario
+        FOR LOGIN nombre_login;
+Modificar un usuario
+    ->  ALTER USER nombre_usuario
+        WITH LOGIN = otro_login;
+Ver los usuarios de base de datos existentes
+    ->  SELECT *
+        FROM sys.database_principals
+        WHERE type = 'S'; -- Filtrar solo los usuarios de base de datos
+Eliminar un usuario de base de datos
+    ->  DROP USER nombre_usuario;
+
+Para ver los usuarios dentro de SSMS debes ir a 'Esplorador de objetos >  Bases de datos > base_de_datos_a_explorar > Seguridad > Usuarios'.
+Si ahi mismo das clic derecho, se abrira la ventana donde puedes crear un nuevo usuario para esa base de datos.
+Aqui podras agregar los datos como el nombre del usuario, el inicio de sesion al que se le asignara este usuario, el esquema por defecto, y los roles de base de datos a los que pertenecera este usuario.
 
 
-
-
+NOTA: La creacion del login permite al usuario conectarse al servidor, pero no a las bases de datos.
+Para que un usuario pueda conectarse a una base de datos, es necesario crear un usuario de base de datos y asignarle un inicio de sesion.
+Un usuario de base de datos debe pertenecer a un inicio de sesion.
 
 
 
