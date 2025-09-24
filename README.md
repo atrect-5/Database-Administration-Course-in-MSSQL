@@ -22,7 +22,7 @@ Cada archivo está diseñado para practicar y entender conceptos clave de la adm
   - Entender qué son las colaciones y su impacto en los datos.
   - Monitorear la actividad del servidor con **SQL Server Profiler**.
   - Implementar **Auditorías** para registrar eventos de seguridad, como inicios de sesión fallidos.
-
+- **`2-Seguridad en la BD en MSSQL`**
 
 ## Uso
 1. Abre los archivos `.sql` en SQL Server Management Studio (SSMS) o tu editor SQL favorito.

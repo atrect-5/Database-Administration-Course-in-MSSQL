@@ -1,0 +1,36 @@
+/////////////////// Autenticación en MSSQL ///////////////////
+
+Regularmente la segurdad comienza a nivel de servidor (los roles a nivel de servidor facilitan la admistracion de permisos), y los usuarios deben autenticarse.
+La seguridad en la base de datos:
+- Permite que alguien o algo pueda acceder a un recurso para que se realice una o mas aciones en el.
+- Las arquitecturas estan jerarquizadas para facilitar la administracion de permisos.
+- Los permisos se heredan.
+
+Cada inicio de sesion tiene un rol determinado para poder gestionar ciertas tareas y permisos.
+Los tipos de inicio de sesion son:
+- Windows (por defecto)
+- SQL Server
+- Mixto
+
+Para cambiar el tipo de inicio de sesion en el servidor SQL Server, tienes que abrir SSMS, ir a 'Esplorador de objetos > (clic derecho) Instancia del servidor > Propiedades', en el panel que se abre ir a la seccion 'Seguridad > Autenticacion del servidor' y seleccionar el metodo que se prefiera.
+Despues, es necesario reiniciar el servidor SQL.
+Para esto, se debe abrir el Administrsdos de tareas e ir hacia 'Servicios > Abrir servicios', buscar la instancia de SQL y dar clic en reiniciar.
+O tambien abriendo SQL Server Configuration Manager, dirigirnos a 'SQL Server Services' y dar clic derecho en la instancia que queremos reiniciar y dar clic en 'Restart'.
+
+Acceso a la base de datos
+- Los inicios de sesion no se pueden conectar a la base de datos, hay que crear un usuario de bases de datos para ello.
+- A cada usuario se le debe asignar un inicio de sesion.
+- Los esquemas son espacios de nombres para organizar objetos en la base de datos (como secciones o archiveros donde se guardan las tablas de la base de datos).
+- Si no se especifica esquema, se asigna al usuario dbo.
+
+Usuarios
+- dbo: puede realizar cualquier accion en la base de datos y no se puede eliminar (es como el db owner).
+- Gest: no puede ser eliminado, pero si deshabilitado, revocando los permisos de conexion.
+- Cuenta SA (Super usuario): Esta suele ser el objetivo de atacantes, no se debe habilitar a menos que se necesite, y se debe colocar una contraseña compleja.
+
+
+Los roles del servidor se utilizan para control de acceso a los recursos y se organizan como jerarquia. 
+- sysadmin: este rol tiene control completo del servidor:
+	- El nombre debe ser corto y en minusculas
+	- La seguridad disminuye si se crea mas de un sysadmin
+
