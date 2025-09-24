@@ -34,3 +34,62 @@ Los roles del servidor se utilizan para control de acceso a los recursos y se or
 	- El nombre debe ser corto y en minusculas
 	- La seguridad disminuye si se crea mas de un sysadmin
 
+/////////////////// Gestionar Inicio de sesión ///////////////////
+
+Para crear un login/inicion de sesion, hay dos maneras en las que podemos realizarlo:
+- Nos dirigimos al 'Explorador de objetos > Seguridad > (clic derecho) Inicios de sesion > Nuevo inicio de sesion'. Esto nos abrira una ventana de configuracion del inicio de sesion. 
+Aqui debemos asignarle un nombre al inicio de sesion y el metodo por el cual se debe iniciar sesion. Tambien podemos habilitar/deshabilitar el inicio de sesion y asignar los roles. Asi como asignar usuarios a este inicio de sesion.
+
+-Tambien se puede crear por medio de TSQL:
+Crear un inicio de sesion con autenticacion de SQL Server
+    ->  CREATE LOGIN nombre_login
+        WITH PASSWORD = 'contraseña_segura';
+Crear un inicio de sesion con autenticacion de Windows
+    ->  CREATE LOGIN [DOMINIO\nombre_usuario]
+        FROM WINDOWS;
+Modificar un inicio de sesion
+    ->  ALTER LOGIN nombre_login
+        WITH PASSWORD = 'nueva_contraseña_segura';
+Eliminar un inicio de sesion
+    ->  DROP LOGIN nombre_login
+Ver los inicios de sesion existentes
+    ->  SELECT *
+        FROM sys.sql_logins;
+
+NOTA: Es importante saber que estos inicios de sesion solo sirven para conectarse a la base de datos, no para manipular nuestras bases de datos.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
