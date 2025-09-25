@@ -12,7 +12,7 @@ Los tipos de inicio de sesion son:
 - SQL Server
 - Mixto
 
-Para cambiar el tipo de inicio de sesion en el servidor SQL Server, tienes que abrir SSMS, ir a 'Esplorador de objetos > (clic derecho) Instancia del servidor > Propiedades', en el panel que se abre ir a la seccion 'Seguridad > Autenticacion del servidor' y seleccionar el metodo que se prefiera.
+Para cambiar el tipo de inicio de sesion que se pueden crear en el servidor SQL Server, tienes que abrir SSMS, ir a 'Esplorador de objetos > (clic derecho) Instancia del servidor > Propiedades', en el panel que se abre ir a la seccion 'Seguridad > Autenticacion del servidor' y seleccionar el metodo que se prefiera.
 Despues, es necesario reiniciar el servidor SQL.
 Para esto, se debe abrir el Administrsdos de tareas e ir hacia 'Servicios > Abrir servicios', buscar la instancia de SQL y dar clic en reiniciar.
 O tambien abriendo SQL Server Configuration Manager, dirigirnos a 'SQL Server Services' y dar clic derecho en la instancia que queremos reiniciar y dar clic en 'Restart'.
@@ -30,9 +30,6 @@ Usuarios
 
 
 Los roles del servidor se utilizan para control de acceso a los recursos y se organizan como jerarquia. 
-- sysadmin: este rol tiene control completo del servidor:
-	- El nombre debe ser corto y en minusculas
-	- La seguridad disminuye si se crea mas de un sysadmin
 
 /////////////////// Gestionar Inicio de sesión ///////////////////
 
@@ -83,7 +80,60 @@ NOTA: La creacion del login permite al usuario conectarse al servidor, pero no a
 Para que un usuario pueda conectarse a una base de datos, es necesario crear un usuario de base de datos y asignarle un inicio de sesion.
 Un usuario de base de datos debe pertenecer a un inicio de sesion.
 
+/////////////////// Roles de servidor ///////////////////
 
+Los permisos en el nivel del sevidor, usualmente se relacionan con acciones administrativas.
+- Crear
+- Alterar
+- Apagar servidores
+- Eliminar servidores
+- Ver la configuracion del servidor
+
+Los permisos con alcance de servidor son:
+(El nodo superior de la jerarquia de permisos a nivel de servidor es control server)
+- CONTROL SERVER: Concede implícitamente todos los permisos a nivel de servidor (máxima autoridad).
+- ADMINISTER BULK OPERATIONS: Permite operaciones masivas, equivalente al rol de sysadmin.
+- ALTER SETTINGS: Permite alterar la configuración global del servidor.
+- ALTER SERVER STATE: Permite cambiar el estado del servidor (iniciar, detener, etc.).
+- ALTER TRACE: Permite alterar las trazas del servidor.
+- ALTER ANY DATABASE: Permite crear, alterar, eliminar y restaurar cualquier base de datos.
+- CREATE ANY DATABASE: Permite crear cualquier base de datos.
+- VIEW SERVER STATE: Permite ver el estado del servidor.
+- VIEW ANY DATABASE: Permite ver todas las bases de datos en el servidor.
+- ALTER ANY LOGIN: Permite alterar cualquier inicio de sesión.
+- IMPERSONATE ANY LOGIN: Permite suplantar cualquier inicio de sesión.
+
+Los roles de servidor preconfigurados son:
+- sysadmin: permite realizar cualquier accion en el seervidor y por tal motivo se debe limitar la membresia lo mas posible.
+- serveradmin: Otorga permisos para configurar ajustes sobre el servidor.
+- securityadmin: Otorga permisos para gestionar inicios de sesion.
+- processadmin: Pueden terminar procesos que estan ejecutandose en una isntancia de SQL Server.
+- setupadmin: pueden agregar o remover servidores enlazados usando sentencias TSQL.
+- bulkadmin: Pueden ejecutar sentencias BULK INSERT.
+- diskadmin: Otorga permisos para administrar archivos de discos.
+- dbcreator: Otorga permisos para gestionar bases de datos.
+- public: Todos los usuarios son miembros del rol publico y no se puede cambiar, este rol no tiene ningun permiso administrativo.
+
+/////////////////// Gestionar roles del servidor ///////////////////
+
+En caso de que ninguno de los reles predeterminados nos sirva para lo que queremos hacer, tambien se pueden crear nuevos roles mas especificos usando SSMS o TSQL.
+Crear un rol de servidor
+    ->  CREATE SERVER ROLE nombre_rol
+        AUTHORIZATION login; -- El login que sera el propietario del rol
+Modificar un rol de servidor
+    ->  ALTER SERVER ROLE nombre_rol
+        ADD MEMBER nombre_login; -- Para agregar un inicio de sesion al rol
+    ->  ALTER SERVER ROLE nombre_rol
+        DROP MEMBER nombre_login; -- Para eliminar un inicio de sesion del rol
+Ver los roles de servidor existentes
+    ->  SELECT *
+        FROM sys.server_principals
+        WHERE type = 'R'; -- Filtrar solo los roles de servidor
+Eliminar un rol de servidor
+    ->  DROP SERVER ROLE nombre_rol;
+
+
+Puedes encontrar los roles creados en 'Explorador de objetos > Seguridad > Roles del servidor'
 
 
 
