@@ -28,7 +28,6 @@ Usuarios
 - Gest: no puede ser eliminado, pero si deshabilitado, revocando los permisos de conexion.
 - Cuenta SA (Super usuario): Esta suele ser el objetivo de atacantes, no se debe habilitar a menos que se necesite, y se debe colocar una contraseña compleja.
 
-
 Los roles del servidor se utilizan para control de acceso a los recursos y se organizan como jerarquia. 
 
 /////////////////// Gestionar Inicio de sesión ///////////////////
@@ -116,7 +115,7 @@ Los roles de servidor preconfigurados son:
 
 /////////////////// Gestionar roles del servidor ///////////////////
 
-En caso de que ninguno de los reles predeterminados nos sirva para lo que queremos hacer, tambien se pueden crear nuevos roles mas especificos usando SSMS o TSQL.
+En caso de que ninguno de los roles predeterminados nos sirva para lo que queremos hacer, tambien se pueden crear nuevos roles mas especificos usando SSMS o TSQL.
 Crear un rol de servidor
     ->  CREATE SERVER ROLE nombre_rol
         AUTHORIZATION login; -- El login que sera el propietario del rol
@@ -132,12 +131,61 @@ Ver los roles de servidor existentes
 Eliminar un rol de servidor
     ->  DROP SERVER ROLE nombre_rol;
 
-
 Puedes encontrar los roles creados en 'Explorador de objetos > Seguridad > Roles del servidor'
 
+/////////////////// Roles de bases de datos ///////////////////
+
+Los roles de bases de datos son similares a los roles de servidor, pero se aplican a nivel de base de datos. 
+
+Se relacionan con opciones administrativas con la gestion de objetos de bases de datos:
+- Crear una base de datos
+- Conectar a una base de datos
+- Modificar una base de datos o un respaldo
+- Ver registros
+- ect.
+
+Los roles de bases de datos predefinidos incluyen:
+- db_owner: Permite realizar cualquier acción en la base de datos.
+- db_securityadmin: Permite gestionar permisos de seguridad en la base de datos.
+- db_accessadmin: Permite gestionar el acceso a la base de datos.
+- db_backupoperator: Permite realizar copias de seguridad de la base de datos.
+- db_datareader: Permite leer todos los datos de la base de datos.
+- db_datawriter: Permite escribir en todas las tablas de la base de datos.
+- db_denydatareader: No puede leer ningun tipo de registro en tablas de usuarios.
+- db_denydatawriter: No puede agregar, modificar o eliminar ningun tipo de registro en tablas de usuarios dentro de una base de datos.
+- db_ddladmin: Permite ejecutar cualquier comando DDL en la base de datos.
+
+Cada base de datos tiene un solo dueño (por defecto es el usuario dbo), que se puede cambiar con ALTER DATABASE. Este tendra el rol de db_owner en la base de datos.
+
+/////////////////// Gestionar roles de bases de datos ///////////////////
+
+Asi como se pueden definir nuevos roles para otorgar permisos especificos para el servidor, tambien se puede para bases de datos.
+
+Para ver los permisos disponibles a nivel de base de datos, se puede usar la siguiente consulta:
+    ->  SELECT *
+        FROM sys.fn_builtin_permissions('DATABASE') -- Ver permisos a nivel de base de datos
+Los permisos que se muestran son los que se pueden otorgar o denegar para el control de la base de datos.
+
+Ver los roles de base de datos existentes
+    ->  SELECT *
+        FROM sys.database_principals
+        WHERE type = 'R'; -- Nos muestra los roles de bases de datos predefinidos
 
 
+En caso de que ninguno de los roles predeterminados nos sirva para lo que queremos hacer, tambien se pueden crear nuevos roles mas especificos usando SSMS o TSQL.
+Crear un rol de base de datos
+    ->  CREATE ROLE nombre_rol;
+Modificar un rol de base de datos (agregar/eliminar un usuario al rol) 
+    ->  ALTER ROLE nombre_rol
+        ADD MEMBER nombre_usuario; -- Para agregar un usuario al rol
+    ->  ALTER ROLE nombre_rol
+        DROP MEMBER nombre_usuario; -- Para eliminar un usuario del rol
+Listar los miembros pertenecientes a un rol
+    ->  EXEC sp_helprolemember nombre_rol; -- Lista los miembros que pertenecen a un rol
+Eliminar un rol de base de datos
+    ->  DROP ROLE nombre_rol;
 
+Puedes encontrar los roles creados en 'Explorador de objetos > Bases de datos > base_de_datos_a_explorar > Seguridad > Roles'. Aqui podemos agregarle los permisos a nuestros roles, con clic derecho en el rol que deseamos y yendo a 'Propiedades'
 
 
 
