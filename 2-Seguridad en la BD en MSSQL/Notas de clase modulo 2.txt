@@ -187,11 +187,42 @@ Eliminar un rol de base de datos
 
 Puedes encontrar los roles creados en 'Explorador de objetos > Bases de datos > base_de_datos_a_explorar > Seguridad > Roles'. Aqui podemos agregarle los permisos a nuestros roles, con clic derecho en el rol que deseamos y yendo a 'Propiedades'
 
+/////////////////// Autorizar y denegar acceso de usuario ///////////////////
 
+Los ambitos "protegibles" son el servidor, las bases de datos y los esquemas.
+Algunos elementos protegibles pueden estar incluidos en otros.
 
+Ademas de asignar permisos a una tabla o vista, tambien se pueden asignar a nivel de columna.
 
+Quien recibe el permiso para un elemento protegible se llama entidad de seguridad.
+Se utiliza GRANT para otorgar permisos y DENY para denegar permisos a:
+- SELECT
+- INSERT
+- DELETE
+- REFERENCES
 
+Tambien se permite controlar quien puede ejecutar codigo.
 
+CONFIGURACION DE PERMISOS A NIVEL DE ESQUEMA
+Los esquemas se usan como contenedores o archiveros (Es como una carpeta que ayuda a clasificar y controlar el acceso a esos objetos).
+Diferentes equipos pueden trabajar en distintos esquemas sin interferencias, lo que facilita el control de acceso.
+
+Cuando no se especifica un esquema, SQL Server usa el esquema dbo (database owner) por defecto.
+
+NOTA: Es importante tambien Delegar o Quitar la responsabilidad de administrar permisos con precaucion.
+
+Para otorgar permisos a un usuario o rol, se puede usar la siguiente sintaxis:
+    ->  GRANT permiso1, permiso2, ...
+        ON objeto_protegible
+        TO entidad_de_seguridad;
+Para denegar permisos a un usuario o rol, se puede usar la siguiente sintaxis:
+    ->  DENY permiso1, permiso2, ...
+        ON objeto_protegible
+        TO entidad_de_seguridad;
+Para revocar permisos otorgados o denegados previamente, se puede usar la siguiente sintaxis:
+    ->  REVOKE permiso1, permiso2, ...
+        ON objeto_protegible
+        FROM entidad_de_seguridad;
 
 
 
