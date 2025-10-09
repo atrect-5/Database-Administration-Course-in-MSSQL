@@ -1,34 +1,34 @@
 /////////////////// Autenticación en MSSQL ///////////////////
 
-Regularmente la segurdad comienza a nivel de servidor (los roles a nivel de servidor facilitan la admistracion de permisos), y los usuarios deben autenticarse.
+Regularmente la seguridad comienza a nivel de servidor (los roles a nivel de servidor facilitan la administración de permisos), y los usuarios deben autenticarse.
 La seguridad en la base de datos:
-- Permite que alguien o algo pueda acceder a un recurso para que se realice una o mas aciones en el.
-- Las arquitecturas estan jerarquizadas para facilitar la administracion de permisos.
+- Permite que alguien o algo pueda acceder a un recurso para que se realice una o más acciones en él.
+- Las arquitecturas están jerarquizadas para facilitar la administración de permisos.
 - Los permisos se heredan.
 
-Cada inicio de sesion tiene un rol determinado para poder gestionar ciertas tareas y permisos.
-Los tipos de inicio de sesion son:
+Cada inicio de sesión tiene un rol determinado para poder gestionar ciertas tareas y permisos.
+Los tipos de inicio de sesión son:
 - Windows (por defecto)
 - SQL Server
 - Mixto
 
-Para cambiar el tipo de inicio de sesion que se pueden crear en el servidor SQL Server, tienes que abrir SSMS, ir a 'Esplorador de objetos > (clic derecho) Instancia del servidor > Propiedades', en el panel que se abre ir a la seccion 'Seguridad > Autenticacion del servidor' y seleccionar el metodo que se prefiera.
-Despues, es necesario reiniciar el servidor SQL.
-Para esto, se debe abrir el Administrsdos de tareas e ir hacia 'Servicios > Abrir servicios', buscar la instancia de SQL y dar clic en reiniciar.
-O tambien abriendo SQL Server Configuration Manager, dirigirnos a 'SQL Server Services' y dar clic derecho en la instancia que queremos reiniciar y dar clic en 'Restart'.
+Para cambiar el tipo de inicio de sesión que se pueden crear en el servidor SQL Server, tienes que abrir SSMS, ir a 'Explorador de objetos > (clic derecho) Instancia del servidor > Propiedades', en el panel que se abre ir a la sección 'Seguridad > Autenticación del servidor' y seleccionar el método que se prefiera.
+Después, es necesario reiniciar el servicio de SQL Server.
+Para esto, se puede abrir el Administrador de tareas e ir hacia 'Servicios > Abrir servicios', buscar la instancia de SQL y dar clic en reiniciar.
+O también abriendo SQL Server Configuration Manager, dirigirnos a 'SQL Server Services' y dar clic derecho en la instancia que queremos reiniciar y dar clic en 'Restart'.
 
 Acceso a la base de datos
-- Los inicios de sesion no se pueden conectar a la base de datos, hay que crear un usuario de bases de datos para ello.
-- A cada usuario se le debe asignar un inicio de sesion.
+- Los inicios de sesión por sí solos no pueden acceder a una base de datos específica; hay que crear un usuario de base de datos para ello.
+- A cada usuario de base de datos se le debe asignar un inicio de sesión.
 - Los esquemas son espacios de nombres para organizar objetos en la base de datos (como secciones o archiveros donde se guardan las tablas de la base de datos).
 - Si no se especifica esquema, se asigna al usuario dbo.
 
 Usuarios
 - dbo: puede realizar cualquier accion en la base de datos y no se puede eliminar (es como el db owner).
-- Gest: no puede ser eliminado, pero si deshabilitado, revocando los permisos de conexion.
-- Cuenta SA (Super usuario): Esta suele ser el objetivo de atacantes, no se debe habilitar a menos que se necesite, y se debe colocar una contraseña compleja.
+- guest: no puede ser eliminado, pero sí deshabilitado, revocando los permisos de conexión.
+- Cuenta sa (system administrator): Esta suele ser el objetivo de atacantes, no se debe habilitar a menos que se necesite, y se debe colocar una contraseña compleja.
 
-Los roles del servidor se utilizan para control de acceso a los recursos y se organizan como jerarquia. 
+Los roles del servidor se utilizan para el control de acceso a los recursos y se organizan como jerarquía. 
 
 /////////////////// Gestionar Inicio de sesión ///////////////////
 
@@ -36,7 +36,7 @@ Para crear un login/inicion de sesion, hay dos maneras en las que podemos realiz
 - Nos dirigimos al 'Explorador de objetos > Seguridad > (clic derecho) Inicios de sesion > Nuevo inicio de sesion'. Esto nos abrira una ventana de configuracion del inicio de sesion. 
 Aqui debemos asignarle un nombre al inicio de sesion y el metodo por el cual se debe iniciar sesion. Tambien podemos habilitar/deshabilitar el inicio de sesion y asignar los roles. Asi como asignar usuarios a este inicio de sesion.
 
--Tambien se puede crear por medio de TSQL:
+-También se puede crear por medio de T-SQL:
 Crear un inicio de sesion con autenticacion de SQL Server
     ->  CREATE LOGIN nombre_login
         WITH PASSWORD = 'contraseña_segura';
@@ -52,11 +52,11 @@ Ver los inicios de sesion existentes
     ->  SELECT *
         FROM sys.sql_logins;
 
-NOTA: Es importante saber que estos inicios de sesion solo sirven para conectarse a la base de datos, no para manipular nuestras bases de datos.
+NOTA: Es importante saber que estos inicios de sesión solo sirven para conectarse al servidor, no para manipular nuestras bases de datos directamente.
 
 /////////////////// Gestionar usuarios de base de datos ///////////////////
 
-Para crear un usuario de base de datos por medio de TSQL, se puede hacer de la siguiente manera:
+Para crear un usuario de base de datos por medio de T-SQL, se puede hacer de la siguiente manera:
 Crear un usuario de base de datos
     ->  CREATE USER nombre_usuario
         FOR LOGIN nombre_login;
@@ -70,7 +70,7 @@ Ver los usuarios de base de datos existentes
 Eliminar un usuario de base de datos
     ->  DROP USER nombre_usuario;
 
-Para ver los usuarios dentro de SSMS debes ir a 'Esplorador de objetos >  Bases de datos > base_de_datos_a_explorar > Seguridad > Usuarios'.
+Para ver los usuarios dentro de SSMS debes ir a 'Explorador de objetos >  Bases de datos > base_de_datos_a_explorar > Seguridad > Usuarios'.
 Si ahi mismo das clic derecho, se abrira la ventana donde puedes crear un nuevo usuario para esa base de datos.
 Aqui podras agregar los datos como el nombre del usuario, el inicio de sesion al que se le asignara este usuario, el esquema por defecto, y los roles de base de datos a los que pertenecera este usuario.
 
@@ -81,14 +81,14 @@ Un usuario de base de datos debe pertenecer a un inicio de sesion.
 
 /////////////////// Roles de servidor ///////////////////
 
-Los permisos en el nivel del sevidor, usualmente se relacionan con acciones administrativas.
+Los permisos a nivel del servidor, usualmente se relacionan con acciones administrativas.
 - Crear
 - Alterar
 - Apagar servidores
 - Eliminar servidores
 - Ver la configuracion del servidor
 
-Los permisos con alcance de servidor son:
+Los permisos con alcance de servidor (permisos a nivel de servidor) son:
 (El nodo superior de la jerarquia de permisos a nivel de servidor es control server)
 - CONTROL SERVER: Concede implícitamente todos los permisos a nivel de servidor (máxima autoridad).
 - ADMINISTER BULK OPERATIONS: Permite operaciones masivas, equivalente al rol de sysadmin.
@@ -103,19 +103,19 @@ Los permisos con alcance de servidor son:
 - IMPERSONATE ANY LOGIN: Permite suplantar cualquier inicio de sesión.
 
 Los roles de servidor preconfigurados son:
-- sysadmin: permite realizar cualquier accion en el seervidor y por tal motivo se debe limitar la membresia lo mas posible.
+- sysadmin: permite realizar cualquier acción en el servidor y por tal motivo se debe limitar la membresía lo más posible.
 - serveradmin: Otorga permisos para configurar ajustes sobre el servidor.
-- securityadmin: Otorga permisos para gestionar inicios de sesion.
-- processadmin: Pueden terminar procesos que estan ejecutandose en una isntancia de SQL Server.
-- setupadmin: pueden agregar o remover servidores enlazados usando sentencias TSQL.
+- securityadmin: Otorga permisos para gestionar inicios de sesión.
+- processadmin: Pueden terminar procesos que están ejecutándose en una instancia de SQL Server.
+- setupadmin: Pueden agregar o remover servidores enlazados usando sentencias T-SQL.
 - bulkadmin: Pueden ejecutar sentencias BULK INSERT.
 - diskadmin: Otorga permisos para administrar archivos de discos.
 - dbcreator: Otorga permisos para gestionar bases de datos.
-- public: Todos los usuarios son miembros del rol publico y no se puede cambiar, este rol no tiene ningun permiso administrativo.
+- public: Todos los inicios de sesión son miembros del rol público y no se puede cambiar. Este rol no tiene ningún permiso administrativo por defecto.
 
 /////////////////// Gestionar roles del servidor ///////////////////
 
-En caso de que ninguno de los roles predeterminados nos sirva para lo que queremos hacer, tambien se pueden crear nuevos roles mas especificos usando SSMS o TSQL.
+En caso de que ninguno de los roles predeterminados nos sirva para lo que queremos hacer, también se pueden crear nuevos roles más específicos usando SSMS o T-SQL.
 Crear un rol de servidor
     ->  CREATE SERVER ROLE nombre_rol
         AUTHORIZATION login; -- El login que sera el propietario del rol
@@ -137,12 +137,12 @@ Puedes encontrar los roles creados en 'Explorador de objetos > Seguridad > Roles
 
 Los roles de bases de datos son similares a los roles de servidor, pero se aplican a nivel de base de datos. 
 
-Se relacionan con opciones administrativas con la gestion de objetos de bases de datos:
+Se relacionan con opciones administrativas para la gestión de objetos de bases de datos:
 - Crear una base de datos
 - Conectar a una base de datos
 - Modificar una base de datos o un respaldo
 - Ver registros
-- ect.
+- etc.
 
 Los roles de bases de datos predefinidos incluyen:
 - db_owner: Permite realizar cualquier acción en la base de datos.
@@ -151,15 +151,15 @@ Los roles de bases de datos predefinidos incluyen:
 - db_backupoperator: Permite realizar copias de seguridad de la base de datos.
 - db_datareader: Permite leer todos los datos de la base de datos.
 - db_datawriter: Permite escribir en todas las tablas de la base de datos.
-- db_denydatareader: No puede leer ningun tipo de registro en tablas de usuarios.
-- db_denydatawriter: No puede agregar, modificar o eliminar ningun tipo de registro en tablas de usuarios dentro de una base de datos.
+- db_denydatareader: Impide leer cualquier tipo de registro en tablas de usuarios.
+- db_denydatawriter: Impide agregar, modificar o eliminar cualquier tipo de registro en tablas de usuarios dentro de una base de datos.
 - db_ddladmin: Permite ejecutar cualquier comando DDL en la base de datos.
 
-Cada base de datos tiene un solo dueño (por defecto es el usuario dbo), que se puede cambiar con ALTER DATABASE. Este tendra el rol de db_owner en la base de datos.
+Cada base de datos tiene un solo dueño (por defecto es el usuario que la creó), que se puede cambiar con ALTER AUTHORIZATION. El usuario `dbo` es un usuario especial que tiene implícitamente el rol `db_owner`.
 
 /////////////////// Gestionar roles de bases de datos ///////////////////
 
-Asi como se pueden definir nuevos roles para otorgar permisos especificos para el servidor, tambien se puede para bases de datos.
+Así como se pueden definir nuevos roles para otorgar permisos específicos para el servidor, también se puede para bases de datos.
 
 Para ver los permisos disponibles a nivel de base de datos, se puede usar la siguiente consulta:
     ->  SELECT *
@@ -172,7 +172,7 @@ Ver los roles de base de datos existentes
         WHERE type = 'R'; -- Nos muestra los roles de bases de datos predefinidos
 
 
-En caso de que ninguno de los roles predeterminados nos sirva para lo que queremos hacer, tambien se pueden crear nuevos roles mas especificos usando SSMS o TSQL.
+En caso de que ninguno de los roles predeterminados nos sirva para lo que queremos hacer, también se pueden crear nuevos roles más específicos usando SSMS o T-SQL.
 Crear un rol de base de datos
     ->  CREATE ROLE nombre_rol;
 Modificar un rol de base de datos (agregar/eliminar un usuario al rol) 
@@ -185,14 +185,14 @@ Listar los miembros pertenecientes a un rol
 Eliminar un rol de base de datos
     ->  DROP ROLE nombre_rol;
 
-Puedes encontrar los roles creados en 'Explorador de objetos > Bases de datos > base_de_datos_a_explorar > Seguridad > Roles'. Aqui podemos agregarle los permisos a nuestros roles, con clic derecho en el rol que deseamos y yendo a 'Propiedades'
+Puedes encontrar los roles creados en 'Explorador de objetos > Bases de datos > base_de_datos_a_explorar > Seguridad > Roles'. Aquí podemos agregarle los permisos a nuestros roles, con clic derecho en el rol que deseamos y yendo a 'Propiedades'
 
 /////////////////// Autorizar y denegar acceso de usuario ///////////////////
 
-Los ambitos "protegibles" son el servidor, las bases de datos y los esquemas.
+Los ámbitos "protegibles" son el servidor, las bases de datos y los esquemas.
 Algunos elementos protegibles pueden estar incluidos en otros.
 
-Ademas de asignar permisos a una tabla o vista, tambien se pueden asignar a nivel de columna.
+Además de asignar permisos a una tabla o vista, también se pueden asignar a nivel de columna.
 
 Quien recibe el permiso para un elemento protegible se llama entidad de seguridad.
 Se utiliza GRANT para otorgar permisos y DENY para denegar permisos a:
@@ -201,7 +201,7 @@ Se utiliza GRANT para otorgar permisos y DENY para denegar permisos a:
 - DELETE
 - REFERENCES
 
-Tambien se permite controlar quien puede ejecutar codigo.
+También se permite controlar quién puede ejecutar código.
 
 CONFIGURACION DE PERMISOS A NIVEL DE ESQUEMA
 Los esquemas se usan como contenedores o archiveros (Es como una carpeta que ayuda a clasificar y controlar el acceso a esos objetos).
@@ -209,7 +209,7 @@ Diferentes equipos pueden trabajar en distintos esquemas sin interferencias, lo 
 
 Cuando no se especifica un esquema, SQL Server usa el esquema dbo (database owner) por defecto.
 
-NOTA: Es importante tambien Delegar o Quitar la responsabilidad de administrar permisos con precaucion.
+NOTA: Es importante también delegar o quitar la responsabilidad de administrar permisos con precaución.
 
 Para otorgar permisos a un usuario o rol, se puede usar la siguiente sintaxis:
     ->  GRANT permiso1, permiso2, ...
@@ -223,22 +223,3 @@ Para revocar permisos otorgados o denegados previamente, se puede usar la siguie
     ->  REVOKE permiso1, permiso2, ...
         ON objeto_protegible
         FROM entidad_de_seguridad;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

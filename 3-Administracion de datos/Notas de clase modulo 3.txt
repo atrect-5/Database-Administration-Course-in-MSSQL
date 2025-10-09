@@ -2,9 +2,9 @@
 
 DRP (Disaster Recovery Plan) -> Es un conjunto de políticas y procedimientos para recuperar la infraestructura tecnológica y los sistemas vitales después de un desastre natural o provocado por el hombre. Se enfoca en cómo minimizar el tiempo de inactividad y la pérdida de datos.
 
-Hay dos puntos importantes a tener en consideracion cuando ocurre un desastre:
-RTO (Recovery Time Objective) -> Tiempo maximo tolerable que puede tardar en recuperarse un sistema despues de un desastre. (Cuanto tiempo puede estar caido un sistema?)
-RPO (Recovery Point Objective) -> Punto maximo en el tiempo al que se puede recuperar un sistema despues de un desastre. Mide la cantidad máxima de datos que la empresa está dispuesta a perder. (Cuanto tiempo de datos se puede perder?)
+Hay dos puntos importantes a tener en consideración cuando ocurre un desastre:
+RTO (Recovery Time Objective) -> Tiempo máximo tolerable que puede tardar en recuperarse un sistema después de un desastre. (Cuanto tiempo puede estar caído un sistema?)
+RPO (Recovery Point Objective) -> Punto máximo en el tiempo al que se puede recuperar un sistema después de un desastre. Mide la cantidad máxima de datos que la empresa está dispuesta a perder. (Cuanto tiempo de datos se puede perder?)
 Las estrategias de backup deben responder a estas necesidades, y pueden ser diferentes para cada base de datos.
 
 Hay varios tipos de backup que se pueden utilizar para cumplir con los objetivos de RTO y RPO:
@@ -19,7 +19,7 @@ Hay varios tipos de backup que se pueden utilizar para cumplir con los objetivos
 - Tail-log backup       -> Es un backup del log de transacciones que captura los registros que aún no han sido respaldados. Se realiza justo antes de restaurar una base de datos o cuando está dañada, para evitar la pérdida de trabajo reciente.
         -> BACKUP LOG [NombreBaseDatos] TO DISK = 'Ruta\NombreBackupTailLog.trn' WITH NORECOVERY;
 
-NOTA: Al realizar respaldos de una base de datos, es recomendado guardarlos en diferentes discos, para evitar que si el disco falla, perder toda la informacion.
+NOTA: Al realizar respaldos de una base de datos, es recomendado guardarlos en diferentes discos, para evitar que si el disco falla, perder toda la información.
 
 Opciones comunes en los comandos de backup:
 -- Opciones de gestión de archivos de backup
@@ -39,21 +39,19 @@ NORECOVERY -> Se usa principalmente para el 'tail-log backup'. Respalda el final
 -- NOUNLOAD -> No descarga el medio después del backup. Usado en backups a cinta.
 
 Para crear un respaldo de una base de datos en SSMS sin T-SQL (Transact SQL):
-Te diriges al 'Explorador de objetos > Bases de datos > tu_base_de_datos (clic derecho) > Tareas > Copia de seguridad'. Esto abrira una ventana de configuracion del Backup de la base de datos, donde se te permitira configurar cosas como:
+Te diriges al 'Explorador de objetos > Bases de datos > tu_base_de_datos (clic derecho) > Tareas > Copia de seguridad'. Esto abrirá una ventana de configuración del Backup de la base de datos, donde se te permitirá configurar cosas como:
 - A que base de datos queremos generarle una copia de seguridad
 - El tipo de backup que queremos generar
 - Si queremos hacer un Backup de la base de datos o de un grupo de archivos (filegroup)
 - La ruta donde queremos guardar la copia (si es en la nube, podemos agregar el URL) (Se pueden agregar varias rutas para crear varias copias)
-En la parte izquierda de la ventana, tambien hay otras opciones como:
-- Si quieres sobreescribir todos los conjuntos de copia de seguridad existentes
+En la parte izquierda de la ventana, también hay otras opciones como:
+- Si quieres sobrescribir todos los conjuntos de copia de seguridad existentes
 - Si quieres que se compruebe la copia de seguridad
 - Si quieres que tenga fecha de caducidad
 - etc.
 
-
-
-Estas estrategias deben tomarse en cuenta en el momento que se crea la base de datos, para estar prevenidos en caso de que llegara a ocurrir algun desasstre.
-Pueden usarse las herramientas propias de SQL Server para el manejo de la recuperacion de datos, pero tambien pueden usarse servicios de terceros.
+Estas estrategias deben tomarse en cuenta en el momento que se crea la base de datos, para estar prevenidos en caso de que llegara a ocurrir algún desastre.
+Pueden usarse las herramientas propias de SQL Server para el manejo de la recuperación de datos, pero también pueden usarse servicios de terceros.
 
 
 
