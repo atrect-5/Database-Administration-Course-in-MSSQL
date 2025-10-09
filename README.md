@@ -15,6 +15,7 @@ Aquí encontrarás archivos con instrucciones y ejemplos de código SQL que cubr
 - Gestionar usuarios e inicios de sesion
 - Gestionar roles de servidor y de bases de datos
 - Autorizar y denegar acceso a objetos
+- Gestion de copias de seguridad de una base de datos
 
 Cada archivo está diseñado para practicar y entender conceptos clave de la administración de SQL Server. Puedes abrirlos y ejecutarlos en tu entorno de SQL Server para experimentar y aprender de manera práctica.
 

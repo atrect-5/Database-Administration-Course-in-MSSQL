@@ -1,0 +1,61 @@
+/////////////////// Plan de recuperación de desastres ///////////////////
+
+DRP (Disaster Recovery Plan) -> Es un conjunto de políticas y procedimientos para recuperar la infraestructura tecnológica y los sistemas vitales después de un desastre natural o provocado por el hombre. Se enfoca en cómo minimizar el tiempo de inactividad y la pérdida de datos.
+
+Hay dos puntos importantes a tener en consideracion cuando ocurre un desastre:
+RTO (Recovery Time Objective) -> Tiempo maximo tolerable que puede tardar en recuperarse un sistema despues de un desastre. (Cuanto tiempo puede estar caido un sistema?)
+RPO (Recovery Point Objective) -> Punto maximo en el tiempo al que se puede recuperar un sistema despues de un desastre. Mide la cantidad máxima de datos que la empresa está dispuesta a perder. (Cuanto tiempo de datos se puede perder?)
+Las estrategias de backup deben responder a estas necesidades, y pueden ser diferentes para cada base de datos.
+
+Hay varios tipos de backup que se pueden utilizar para cumplir con los objetivos de RTO y RPO:
+- Full backup           -> Copia completa de la base de datos en un punto en el tiempo.
+        -> BACKUP DATABASE [NombreBaseDatos] TO DISK = 'Ruta\NombreBackup.bak' WITH COMPRESSION, STATS = 10;
+- Backup de los logs de las transacciones -> Copia de los registros de transacciones desde el último backup *de logs*. Permite la recuperación a un punto específico en el tiempo (Point-in-Time Recovery). Solo disponible en modelos de recuperación FULL o BULK_LOGGED.
+        -> BACKUP LOG [NombreBaseDatos] TO DISK = 'Ruta\NombreBackupLog.trn' WITH COMPRESSION, STATS = 10;
+- Backup diferencial    -> Copia de los datos que han cambiado desde el último backup completo.
+        -> BACKUP DATABASE [NombreBaseDatos] TO DISK = 'Ruta\NombreBackupDiff.dif' WITH DIFFERENTIAL, COMPRESSION, STATS = 10;
+- Filegroups backup     -> Copia de uno o más archivos o filegroups de la base de datos. Útil para bases de datos muy grandes, permitiendo respaldar y restaurar partes de la BD de forma independiente.
+        -> BACKUP DATABASE [NombreBaseDatos] FILEGROUP = 'NombreFileGroup' TO DISK = 'Ruta\NombreBackupFileGroup.bak' WITH COMPRESSION, STATS = 10;
+- Tail-log backup       -> Es un backup del log de transacciones que captura los registros que aún no han sido respaldados. Se realiza justo antes de restaurar una base de datos o cuando está dañada, para evitar la pérdida de trabajo reciente.
+        -> BACKUP LOG [NombreBaseDatos] TO DISK = 'Ruta\NombreBackupTailLog.trn' WITH NORECOVERY;
+
+NOTA: Al realizar respaldos de una base de datos, es recomendado guardarlos en diferentes discos, para evitar que si el disco falla, perder toda la informacion.
+
+Opciones comunes en los comandos de backup:
+-- Opciones de gestión de archivos de backup
+INIT -> Sobrescribe el archivo de backup si existe, creando un nuevo conjunto de medios. Si no se especifica, el nuevo backup se anexa al archivo (comportamiento por defecto: NOINIT).
+NOINIT -> (Predeterminado) Anexa el backup al archivo existente, conservando los backups anteriores en el mismo archivo.
+
+-- Opciones de rendimiento y estado
+COMPRESSION -> Realiza el backup comprimiendo los datos, lo que ahorra espacio en disco. Muy recomendado.
+STATS = [porcentaje] -> Muestra un mensaje de progreso cada vez que se completa el porcentaje especificado. Por ejemplo, `STATS = 10` muestra el progreso cada 10%.
+
+-- Opciones para backups de log
+NORECOVERY -> Se usa principalmente para el 'tail-log backup'. Respalda el final del log y deja la base de datos en estado de restauración (RESTORING), de modo que no se puedan realizar más transacciones antes de la restauración principal.
+
+-- Opciones heredadas (generalmente no necesarias para backups en disco)
+-- SKIP -> Omite la verificación de la etiqueta del medio. Usado en backups a cinta.
+-- NOREWIND -> No rebobina el medio después del backup. Usado en backups a cinta.
+-- NOUNLOAD -> No descarga el medio después del backup. Usado en backups a cinta.
+
+Para crear un respaldo de una base de datos en SSMS sin T-SQL (Transact SQL):
+Te diriges al 'Explorador de objetos > Bases de datos > tu_base_de_datos (clic derecho) > Tareas > Copia de seguridad'. Esto abrira una ventana de configuracion del Backup de la base de datos, donde se te permitira configurar cosas como:
+- A que base de datos queremos generarle una copia de seguridad
+- El tipo de backup que queremos generar
+- Si queremos hacer un Backup de la base de datos o de un grupo de archivos (filegroup)
+- La ruta donde queremos guardar la copia (si es en la nube, podemos agregar el URL) (Se pueden agregar varias rutas para crear varias copias)
+En la parte izquierda de la ventana, tambien hay otras opciones como:
+- Si quieres sobreescribir todos los conjuntos de copia de seguridad existentes
+- Si quieres que se compruebe la copia de seguridad
+- Si quieres que tenga fecha de caducidad
+- etc.
+
+
+
+Estas estrategias deben tomarse en cuenta en el momento que se crea la base de datos, para estar prevenidos en caso de que llegara a ocurrir algun desasstre.
+Pueden usarse las herramientas propias de SQL Server para el manejo de la recuperacion de datos, pero tambien pueden usarse servicios de terceros.
+
+
+
+
+
