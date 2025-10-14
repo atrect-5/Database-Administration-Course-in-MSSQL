@@ -53,6 +53,51 @@ En la parte izquierda de la ventana, también hay otras opciones como:
 Estas estrategias deben tomarse en cuenta en el momento que se crea la base de datos, para estar prevenidos en caso de que llegara a ocurrir algún desastre.
 Pueden usarse las herramientas propias de SQL Server para el manejo de la recuperación de datos, pero también pueden usarse servicios de terceros.
 
+/////////////////// Proceso de restauración ///////////////////
+
+Se compone de 3 fases
+- Realizar la copia de los datos (ya sea completa, diferencial, de logs, etc.)
+- Recuperar detalles del registro de transacciones 
+- Los datos se ponen al día hasta un punto de recuperación
+
+La restauración de una base de datos implica varios pasos y consideraciones, dependiendo del tipo de backup que se haya realizado y del estado actual de la base de datos.
+Hay algunas características que están presentes dependiendo de la versión de SQL Server que se este utilizando (express, developer, enterprise).
+
+SQL Server permite:
+- Recuperar grupos de archivos
+- Restauración de paginas
+- Restauración en línea (Solo en la versión enterprise)
+
+Para realizar la restauración se debe verificar las copias de seguridad a nuestra disposición y validar el estado de las mismas.
+
+Los tipos de restauraciones que permite SQL Server son:
+- Restaurar una base de datos
+- Remplazar una base de datos existente
+- Restaurar archivos de una base de datos existente a una ubicación diferente
+- Restaurar una base de datos en modo de espera
+- Restauración de una copia de seguridad diferencial
+- Restauración de una copia de seguridad del registro de transacciones 
+
+Para verificar si el archivo de respaldo para la recuperacion de la base de datos es valido, podemos hacerlo con esta consulta T-SQL:
+	-> RESTORE VERIFYONLY  FROM DISK = N'ruta_del_respaldo.bak'
+Una vez que se verifica el estado de la copia, se procede a realizar la restauración:
+	-> RESTORE DATABASE nombre_de_la_db  FROM DISK = N'ruta_del_respaldo.bak'
+Una vez restaurada, se debe verificar la integridad lógica y física de la base de datos:
+	-> DBCC CHECKDB('nombre_de_la_db') 
+
+Para realizar la restauración de la base de datos usando SSMS, creamos primero una base de datos, luego nos dirigimos a: 'Explorador de objetos > Bases de datos > nombre_de_la_db (clic derecho) > Tareas > Restaurar > Base de datos...'.
+Esto abrirá una ventana donde podremos configurar la restauración, como que base de datos queremos restaurar, e incluso Comprobar el estado de la copia de seguridad. También hay otras configuraciones, como si se quiere sobrescribir la base de datos.
+
+
+
+
+
+
+
+
+
+
+
 
 
 
