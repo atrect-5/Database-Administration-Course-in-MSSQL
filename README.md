@@ -27,7 +27,13 @@ Cada archivo está diseñado para practicar y entender conceptos clave de la adm
   - Entender qué son las colaciones y su impacto en los datos.
   - Monitorear la actividad del servidor con **SQL Server Profiler**.
   - Implementar **Auditorías** para registrar eventos de seguridad, como inicios de sesión fallidos.
-- **`2-Seguridad en la BD en MSSQL`**
+- **`2-Seguridad en la BD en MSSQL`**: Este módulo se enfoca en los conceptos y prácticas para asegurar una instancia de SQL Server y sus bases de datos. En concreto:
+  - Comprender los modelos de **Autenticación** (Windows y SQL Server).
+  - Crear y gestionar **Inicios de Sesión** (Logins) y **Usuarios** de base de datos.
+  - Administrar **Roles de Servidor** para controlar permisos a nivel de instancia.
+  - Administrar **Roles de Base de Datos** para gestionar permisos dentro de una base de datos.
+  - Otorgar, denegar y revocar permisos sobre objetos específicos con `GRANT`, `DENY` y `REVOKE`.
+- **`3-Administración de datos`**
 
 ## Uso
 1. Abre los archivos `.sql` en SQL Server Management Studio (SSMS) o tu editor SQL favorito.
