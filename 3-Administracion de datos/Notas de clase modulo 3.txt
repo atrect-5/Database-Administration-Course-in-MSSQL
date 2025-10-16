@@ -9,15 +9,35 @@ Las estrategias de backup deben responder a estas necesidades, y pueden ser dife
 
 Hay varios tipos de backup que se pueden utilizar para cumplir con los objetivos de RTO y RPO:
 - Full backup           -> Copia completa de la base de datos en un punto en el tiempo.
-        -> BACKUP DATABASE [NombreBaseDatos] TO DISK = 'Ruta\NombreBackup.bak' WITH COMPRESSION, STATS = 10;
+```sql
+BACKUP DATABASE [NombreBaseDatos] 
+TO DISK = 'C:\Ruta\Completa\NombreBackup.bak' 
+WITH COMPRESSION, STATS = 10;
+```
 - Backup de los logs de las transacciones -> Copia de los registros de transacciones desde el último backup *de logs*. Permite la recuperación a un punto específico en el tiempo (Point-in-Time Recovery). Solo disponible en modelos de recuperación FULL o BULK_LOGGED.
-        -> BACKUP LOG [NombreBaseDatos] TO DISK = 'Ruta\NombreBackupLog.trn' WITH COMPRESSION, STATS = 10;
+```sql
+BACKUP LOG [NombreBaseDatos] 
+TO DISK = 'C:\Ruta\Completa\NombreBackupLog.trn' 
+WITH COMPRESSION, STATS = 10;
+```
 - Backup diferencial    -> Copia de los datos que han cambiado desde el último backup completo.
-        -> BACKUP DATABASE [NombreBaseDatos] TO DISK = 'Ruta\NombreBackupDiff.dif' WITH DIFFERENTIAL, COMPRESSION, STATS = 10;
+```sql
+BACKUP DATABASE [NombreBaseDatos] 
+TO DISK = 'C:\Ruta\Completa\NombreBackupDiff.dif' 
+WITH DIFFERENTIAL, COMPRESSION, STATS = 10;
+```
 - Filegroups backup     -> Copia de uno o más archivos o filegroups de la base de datos. Útil para bases de datos muy grandes, permitiendo respaldar y restaurar partes de la BD de forma independiente.
-        -> BACKUP DATABASE [NombreBaseDatos] FILEGROUP = 'NombreFileGroup' TO DISK = 'Ruta\NombreBackupFileGroup.bak' WITH COMPRESSION, STATS = 10;
+```sql 
+BACKUP DATABASE [NombreBaseDatos] FILEGROUP = 'NombreFileGroup' 
+TO DISK = 'Ruta\NombreBackupFileGroup.bak' 
+WITH COMPRESSION, STATS = 10;
+```
 - Tail-log backup       -> Es un backup del log de transacciones que captura los registros que aún no han sido respaldados. Se realiza justo antes de restaurar una base de datos o cuando está dañada, para evitar la pérdida de trabajo reciente.
-        -> BACKUP LOG [NombreBaseDatos] TO DISK = 'Ruta\NombreBackupTailLog.trn' WITH NORECOVERY;
+```sql
+BACKUP LOG [NombreBaseDatos] 
+TO DISK = 'Ruta\NombreBackupTailLog.trn' 
+WITH NORECOVERY;
+```
 
 NOTA: Al realizar respaldos de una base de datos, es recomendado guardarlos en diferentes discos, para evitar que si el disco falla, perder toda la información.
 
@@ -79,41 +99,77 @@ Los tipos de restauraciones que permite SQL Server son:
 - Restauración de una copia de seguridad del registro de transacciones 
 
 Para verificar si el archivo de respaldo para la recuperación de la base de datos es valido, podemos hacerlo con esta consulta T-SQL:
-	-> RESTORE VERIFYONLY  FROM DISK = N'ruta_del_respaldo.bak'
+```sql
+RESTORE VERIFYONLY FROM DISK = N'C:\Ruta\Completa\nombre_del_respaldo.bak';
+```
 Una vez que se verifica el estado de la copia, se procede a realizar la restauración:
-	-> RESTORE DATABASE nombre_de_la_db  FROM DISK = N'ruta_del_respaldo.bak'
+```sql
+RESTORE DATABASE [nombre_de_la_db] 
+FROM DISK = N'C:\Ruta\Completa\nombre_del_respaldo.bak'
+WITH RECOVERY; -- O NORECOVERY si se aplicarán más logs
+```
 Una vez restaurada, se debe verificar la integridad lógica y física de la base de datos:
-	-> DBCC CHECKDB('nombre_de_la_db') 
+```sql
+DBCC CHECKDB('nombre_de_la_db');
+```
 
 Para realizar la restauración de la base de datos usando SSMS, creamos primero una base de datos, luego nos dirigimos a: 'Explorador de objetos > Bases de datos > nombre_de_la_db (clic derecho) > Tareas > Restaurar > Base de datos...'.
 Esto abrirá una ventana donde podremos configurar la restauración, como que base de datos queremos restaurar, e incluso Comprobar el estado de la copia de seguridad. También hay otras configuraciones, como si se quiere sobrescribir la base de datos.
 
 /////////////////// Transparent Data Encryption ///////////////////
 
-Cifra los archivos de datos de SQL Server para proteger los datos, así en caso de que se llegaran a robar nuestros datos, no los podrían leer al estar encriptados.
+Cifra los archivos de datos y de log de SQL Server para proteger los datos en reposo (at-rest). Así, en caso de que se llegaran a robar los archivos físicos, no los podrían leer al estar encriptados.
 (Esta función esta disponible en las versiones Enterprise 2008 en adelante y Standard 2017 en adelante)
 
 Es necesario para cumplir con el reglamento general de protección de datos (RGPD / GDPR).
 
-Para la implementación es necesario crear una clave maestra y crear / obtener un certificado protegido por esa clave maestra.
+Para la implementación es necesario crear una clave maestra en la base de datos `master` y luego un certificado protegido por esa clave.
 
 Primero, creamos nuestra clave maestra:
-	-> CREATE MASTER KEY ENCRYPTION BY PASSWORD = 'ContraseñaSegura'
+```sql
+-- Ejecutar en la base de datos master
+USE master;
+GO
+CREATE MASTER KEY ENCRYPTION BY PASSWORD = 'UnaContraseñaMuySeguraYCompleja';
+GO
+```
 Después, debes crear el certificado firmado:
-	-> CREATE CERTIFICATE NombreCertificado WITH SUBJECT = 'NombreCertificado'
+```sql
+CREATE CERTIFICATE TDE_Certificado
+WITH SUBJECT = 'Certificado para TDE';
+GO
+```
  Luego, se debe crear un respaldo de ese certificado:
-	-> BACKUP CERTIFICATE NombreCertificado TO FILE = 'ruta_respaldo_certificado'
-	WITH PRIVATE KEY (FILE = 'ruta_respaldo_certificado.pri',
-	ENCRYPTION BY PASSWORD = 'NombreCertificado')
-        Luego, Se crea la llave de encriptación para la base de datos
-	-> Use MiBaseDeDatos 
-	CREATE DATABASE ENCRYPTION KEY 
-	WITH ALGORITHM = AES_256 ENCRYPTION BY SERVER CERTIFICATE NombreCertificado; -- Solo funciona con determinadas versiones de SQL Server
+```sql
+BACKUP CERTIFICATE TDE_Certificado
+TO FILE = 'C:\Ruta\Backups\TDE_Certificado.cer'
+WITH PRIVATE KEY (
+    FILE = 'C:\Ruta\Backups\TDE_Certificado.pvk',
+    ENCRYPTION BY PASSWORD = 'OtraContraseñaParaProtegerLaClavePrivada'
+);
+GO
+```
+Luego, se crea la llave de encriptación para la base de datos (DEK):
+```sql
+-- Cambiar al contexto de la base de datos a cifrar
+USE MiBaseDeDatos;
+GO
+CREATE DATABASE ENCRYPTION KEY
+WITH ALGORITHM = AES_256
+ENCRYPTION BY SERVER CERTIFICATE TDE_Certificado;
+GO
+```
 Por ultimo, se cifra la base de datos:
-	-> ALTER DATABASE MiBaseDeDatos SET ENCRYPTION ON 
+```sql
+ALTER DATABASE MiBaseDeDatos SET ENCRYPTION ON;
+GO
+```
 
 Para saber si la base de datos esta encriptada, se obtienen las llaves de encriptación
-SELECT * FROM sys.dm_database_encryption_keys;
+```sql
+SELECT db_name(database_id) AS DatabaseName, encryption_state
+FROM sys.dm_database_encryption_keys;
+```
 Dependiendo el código de encryption_state, es si esta cifrada o no la base de datos
 0 -> No existe una clave de cifrado en la base de datos, no esta cifrado
 1 -> No cifrado
@@ -123,11 +179,21 @@ Dependiendo el código de encryption_state, es si esta cifrada o no la base de d
 5 -> Se esta descifrando
 6 -> Se esta cambiando la protección
 	
+/////////////////// Dynamic Data Masking ///////////////////
 
+Protege datos confidenciales alterando dinámicamente los datos devueltos a los usuarios o aplicaciones durante una consulta, sin cambiar los datos subyacentes almacenados en la base de datos.
 
+Para hacer esto, debemos agregar 'MASKED WITH (FUNCTION = )' para marcar estos datos como "bloqueados", para que cuando alguien sin privilegios para ver esta información, solo pueda verla parcialmente o no la pueda ver.
+La manera en la que se ocultara la información, dependerá en la función que se escoja.
 
+Ejemplo para enmascarar una columna de email:
+```sql
+ALTER TABLE dbo.MiTabla
+ALTER COLUMN Email ADD MASKED WITH (FUNCTION = 'email()');
+```
 
-
-
-
-
+Para eliminar la mascara de una columna, se realiza la siguiente operacion:
+```sql
+ALTER TABLE dbo.MiTabla
+ALTER COLUMN Email DROP MASKED;
+```
