@@ -78,7 +78,7 @@ Los tipos de restauraciones que permite SQL Server son:
 - Restauración de una copia de seguridad diferencial
 - Restauración de una copia de seguridad del registro de transacciones 
 
-Para verificar si el archivo de respaldo para la recuperacion de la base de datos es valido, podemos hacerlo con esta consulta T-SQL:
+Para verificar si el archivo de respaldo para la recuperación de la base de datos es valido, podemos hacerlo con esta consulta T-SQL:
 	-> RESTORE VERIFYONLY  FROM DISK = N'ruta_del_respaldo.bak'
 Una vez que se verifica el estado de la copia, se procede a realizar la restauración:
 	-> RESTORE DATABASE nombre_de_la_db  FROM DISK = N'ruta_del_respaldo.bak'
@@ -88,12 +88,41 @@ Una vez restaurada, se debe verificar la integridad lógica y física de la base
 Para realizar la restauración de la base de datos usando SSMS, creamos primero una base de datos, luego nos dirigimos a: 'Explorador de objetos > Bases de datos > nombre_de_la_db (clic derecho) > Tareas > Restaurar > Base de datos...'.
 Esto abrirá una ventana donde podremos configurar la restauración, como que base de datos queremos restaurar, e incluso Comprobar el estado de la copia de seguridad. También hay otras configuraciones, como si se quiere sobrescribir la base de datos.
 
+/////////////////// Transparent Data Encryption ///////////////////
 
+Cifra los archivos de datos de SQL Server para proteger los datos, así en caso de que se llegaran a robar nuestros datos, no los podrían leer al estar encriptados.
+(Esta función esta disponible en las versiones Enterprise 2008 en adelante y Standard 2017 en adelante)
 
+Es necesario para cumplir con el reglamento general de protección de datos (RGPD / GDPR).
 
+Para la implementación es necesario crear una clave maestra y crear / obtener un certificado protegido por esa clave maestra.
 
+Primero, creamos nuestra clave maestra:
+	-> CREATE MASTER KEY ENCRYPTION BY PASSWORD = 'ContraseñaSegura'
+Después, debes crear el certificado firmado:
+	-> CREATE CERTIFICATE NombreCertificado WITH SUBJECT = 'NombreCertificado'
+ Luego, se debe crear un respaldo de ese certificado:
+	-> BACKUP CERTIFICATE NombreCertificado TO FILE = 'ruta_respaldo_certificado'
+	WITH PRIVATE KEY (FILE = 'ruta_respaldo_certificado.pri',
+	ENCRYPTION BY PASSWORD = 'NombreCertificado')
+        Luego, Se crea la llave de encriptación para la base de datos
+	-> Use MiBaseDeDatos 
+	CREATE DATABASE ENCRYPTION KEY 
+	WITH ALGORITHM = AES_256 ENCRYPTION BY SERVER CERTIFICATE NombreCertificado; -- Solo funciona con determinadas versiones de SQL Server
+Por ultimo, se cifra la base de datos:
+	-> ALTER DATABASE MiBaseDeDatos SET ENCRYPTION ON 
 
-
+Para saber si la base de datos esta encriptada, se obtienen las llaves de encriptación
+SELECT * FROM sys.dm_database_encryption_keys;
+Dependiendo el código de encryption_state, es si esta cifrada o no la base de datos
+0 -> No existe una clave de cifrado en la base de datos, no esta cifrado
+1 -> No cifrado
+2 -> Se esta cifrando la base de datos
+3 -> Cifrado
+4 -> Se esta cambiando la clave de cifrado
+5 -> Se esta descifrando
+6 -> Se esta cambiando la protección
+	
 
 
 
