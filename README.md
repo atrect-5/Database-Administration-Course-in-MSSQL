@@ -33,7 +33,11 @@ Cada archivo está diseñado para practicar y entender conceptos clave de la adm
   - Administrar **Roles de Servidor** para controlar permisos a nivel de instancia.
   - Administrar **Roles de Base de Datos** para gestionar permisos dentro de una base de datos.
   - Otorgar, denegar y revocar permisos sobre objetos específicos con `GRANT`, `DENY` y `REVOKE`.
-- **`3-Administración de datos`**
+- **`3-Administración de datos`**: Este módulo se centra en la protección de los datos, las estrategias de respaldo y recuperación, y las características de seguridad para proteger la información sensible. En concreto:
+  - Implementar un **Plan de Recuperación de Desastres (DRP)**, entendiendo los conceptos de RTO y RPO.
+  - Realizar diferentes tipos de **Copias de Seguridad** (Full, Diferencial, Log) y **Restauraciones** de bases de datos.
+  - Proteger datos en reposo mediante **Transparent Data Encryption (TDE)**.
+  - Ocultar datos sensibles en los resultados de consultas con **Dynamic Data Masking (DDM)**.
 
 ## Uso
 1. Abre los archivos `.sql` en SQL Server Management Studio (SSMS) o tu editor SQL favorito.
