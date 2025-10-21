@@ -48,3 +48,12 @@ VALUES (1,1), (1,2), (2,1), (3,2); -- Solo se usan los id de los estudiantes y c
 SELECT * FROM Estudiantes;
 SELECT * FROM Cursos;
 SELECT * FROM InscripcionEstudianteCurso;
+
+
+-- Creamos una tabla simple para almacenar logs de la base de datos (se usara con triggers)
+CREATE TABLE dbo.Log (
+	LogId INT IDENTITY,
+	LogName VARCHAR(70),
+	LogValue VARCHAR(150)
+)
+GO

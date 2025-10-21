@@ -127,6 +127,38 @@ NOTA: Para actualizar la función es la misma estructura, pero cambiando el inic
 Puedes ver las funciones que has creado en: 'Explorador de objetos > Bases de datos > tu_base_de_datos > Programación > Funciones'. Aquí vienen las funciones que has creado según su categoría y si das clic derecho, SSMS te creara un archivo base para la creación de una función dependiendo de tipo que escojas.
 
 
+/////////////////// Triggers ///////////////////
+
+Es un objeto almacenado en una base de datos que se activa automáticamente cuando ocurre un evento específico en una tabla o vista. Los eventos que activan los triggers pueden ser tanto Insert, Update o Delete. No se usa en SELECT, ya que este no cambia el conteenido de una base de datos.
+La desventaja de los triggers, no son portables, solo puedes usarlos en los motores SQL en donde los creaste.
+Se deben usar con cuidado, ya que pueden llegar a consumir todos los recursos del servidor si por un error se llegan a aactivar muchos en cascada, ya que suelen consumir muchos recursos.
+
+Existen 2 disparadores para los triggers:
+AFTER : Se activa únicamente después de que todas las operaciones especificadas en la sentencia SQL que lo desencadenó se hayan ejecutado correctamente, incluyendo las acciones en cascada de restricciones de clave externa y las comprobaciones de restricciones CHECK.
+
+INSTEAD OF: Anula la acción desencadenante y ejecuta sus propias sentencias en su lugar, lo cual es especialmente útil en vistas para redirigir operaciones a tablas subyacentes.
+
+NOTA: Los disparadores AFTER no pueden definirse sobre vistas, mientras que los INSTEAD OF sí pueden, aunque no se pueden crear sobre vistas definidas con WITH CHECK OPTION
+
+Para crearlos, se utiliza esta sintaxis:
+/***** Trigger de inserción con after e inserted *****/
+CREATE TRIGGER nombre_trigger
+ON tabla_objetivo
+{ FOR | AFTER }
+{ [ INSERT ] [ , ] [ UPDDATE ] [ , ] [ DELETE ] }
+AS
+{
+	declaracion_sql
+	[,...n]
+}
+
+
+Para eliminar un trigger, se hace de la siguiente manera:
+DROP TRIGGER nombre_trigger
+
+NOTA: Para actualizar un trigger es la misma estructura, pero cambiando el inicio de 'CREATE TRIGGER nombre_trigger' -> 'ALTER TRIGGER nombre_trigger'
+
+
 
 
 
