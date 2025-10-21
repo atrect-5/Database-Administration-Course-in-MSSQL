@@ -1,0 +1,133 @@
+/////////////////// Funciones ///////////////////
+
+Es un bloque de código reutilizable que realiza una tarea específica, puede tomar o no datos de entrada, procesarlos y devolver un resultado.
+
+[input] X -> [Función] F: -> [Output] F(x)
+
+Existen diferentes tipos de funciones en SQL Server:
+Funciones escalares (de valor único)
+	-> Devuelven un solo valor, por ejemplo: la suma de dos números (devuelve solo el resultado)
+Table Values (Devuelve una tabla)
+	-> Devuelven tablas de resultados de consultas.
+Funciones deterministas:
+	-> Siempre que se manden los mismos valores como parámetro, retornara el mismo resultado. Por ejemplo, si la función suma 2 números, siempre que se manden los mismos 2 números retornara el mismo resultado.
+Funciones no deterministas:
+	-> Puede tener variaciones en la salida aunque se llame con los mismos parámetros. Por ejemplo, funciones basadas en fechas (ya que la fecha va cambiando) o con datos aleatorios.
+
+SQL Server también cuenta con sus propias funciones integradas:
+Funciones de agregación:
+	-> Realizan cálculos para retornar un solo valor. Por ejemplo, Count, Max, etc.
+Funciones analíticas:
+	-> Calculan un valor agregado basado en un grupo de filas (una "ventana" definida por la cláusula OVER). A diferencia de las funciones de agregación, pueden devolver múltiples filas para cada grupo. Ejemplos: LEAD, LAG, FIRST_VALUE, LAST_VALUE.
+Funciones de rango:
+	-> Devuelven un valor de clasificación para cada fila dentro de una partición de un conjunto de resultados. Ejemplos: ROW_NUMBER, RANK, DENSE_RANK, NTILE.
+Funciones escalares:
+	-> Operan sobre un solo valor y devuelven un solo valor. Se pueden usar en la mayoría de las partes de una instrucción T-SQL. Ejemplos: GETDATE(), UPPER(), LEN().
+Funciones de fila:
+	-> Se aplican a cada fila individual de una consulta y devuelven un resultado por cada fila procesada.
+
+
+Algunas funciones integradas en SQL Server son:
+Funciones de Agregación:
+    SUM() -> Calcula la suma total de una columna numérica.
+    AVG() -> Calcula el promedio de una columna numérica.
+    COUNT() -> Cuenta el número de filas en una tabla o resultado de una consulta.
+    MAX() -> Devuelve el valor máximo de una columna.
+    MIN() -> Devuelve el valor mínimo de una columna.
+
+Funciones Analíticas:
+    LEAD() -> Accede a datos de una fila posterior en el mismo conjunto de resultados.
+    LAG() -> Accede a datos de una fila anterior en el mismo conjunto de resultados.
+    FIRST_VALUE() -> Devuelve el primer valor en un conjunto ordenado de valores dentro de una partición.
+    LAST_VALUE() -> Devuelve el último valor en un conjunto ordenado de valores dentro de una partición.
+
+Funciones de Rango:
+    ROW_NUMBER() -> Asigna un número secuencial único a cada fila dentro de una partición.
+    RANK() -> Asigna un rango a cada fila. Si hay empates en el rango, se salta el siguiente número.
+    DENSE_RANK() -> Asigna un rango a cada fila. Si hay empates, no se salta el siguiente número.
+    NTILE(N) -> Distribuye las filas en un número especificado (N) de grupos.
+
+Funciones Escalares:
+  -> De Cadena:
+    UPPER() -> Convierte una cadena a mayúsculas.
+    LOWER() -> Convierte una cadena a minúsculas.
+    LEN() -> Devuelve la longitud de una cadena.
+    CONCAT() -> Une dos o más cadenas en una sola.
+    SUBSTRING() -> Extrae una parte de una cadena.
+    REPLACE() -> Reemplaza todas las ocurrencias de un texto por otro en una cadena.
+    TRIM() -> Elimina espacios en blanco al inicio y al final de una cadena.
+
+  -> De Fecha y Hora:
+    GETDATE() -> Devuelve la fecha y hora actuales del sistema.
+    DATEDIFF() -> Calcula la diferencia entre dos fechas (en años, meses, días, etc.).
+    DATEADD() -> Agrega un intervalo (día, mes, año) a una fecha.
+    DATEPART() -> Devuelve una parte específica de una fecha (año, mes, día).
+
+  -> Matemáticas:
+    RAND() -> Genera un número aleatorio flotante entre 0 y 1.
+    ROUND() -> Redondea un número a una cantidad específica de decimales.
+    ABS() -> Devuelve el valor absoluto de un número.
+
+  -> De Sistema y Conversión:
+    ISNULL() -> Reemplaza un valor NULL con un valor especificado.
+    CAST() -> Convierte un valor de un tipo de dato a otro (estándar de SQL).
+    CONVERT() -> Similar a CAST, pero con opciones de formato específicas de SQL Server, especialmente para fechas.
+
+También se permite crear tus propias funciones, (estas pueden también implementar funciones integradas de SQL Server).
+Para crear tus propias funciones, debes declararla de la siguiente manera:
+/*****Función escalar*****/
+CREATE FUNCTION nombre_funcion
+( [ {@nombre_parametro [AS] tipo_dato_parametro
+	[ = default ]}
+	[,...n]
+   ]
+)
+RETURNS tipo_dato_retorno
+AS
+BEGIN
+	cuerpo_funcion
+	RETURN expresion_escalar
+END [;]
+
+/***** Función ITVF (Inline Table-Valued Function) *****/
+NOTA: El resultado que devuelven puede ser tratado como una tabla
+CREATE FUNCTION nombre_funcion
+( [ {@nombre_parametro [AS] tipo_dato_parametro
+	[ = default ]}
+	[,...n]
+   ]
+)
+RETURNS table
+AS
+	RETURN (
+		expresion_sql
+	)
+
+/***** Función MTVF (multi-statement table valued functions) *****/
+CREATE FUNCTION nombre_funcion
+( [ {@nombre_parametro [AS] tipo_dato_parametro
+	[ = default ]}
+	[,...n]
+   ]
+)
+RETURNS @return_variable TABLE
+<definicion_tipo_tabla>
+AS
+BEGIN
+	cuerpo_funcion
+	RETURN
+END [;]
+
+
+Para eliminar una función, se hace de la siguiente manera:
+DROP FUNCTION nombre_funcion 
+
+NOTA: Para actualizar la función es la misma estructura, pero cambiando el inicio de 'CREATE FUNCTION nombre_funcion' -> 'ALTER FUNCTION nombre_funcion'
+
+Puedes ver las funciones que has creado en: 'Explorador de objetos > Bases de datos > tu_base_de_datos > Programación > Funciones'. Aquí vienen las funciones que has creado según su categoría y si das clic derecho, SSMS te creara un archivo base para la creación de una función dependiendo de tipo que escojas.
+
+
+
+
+
+
