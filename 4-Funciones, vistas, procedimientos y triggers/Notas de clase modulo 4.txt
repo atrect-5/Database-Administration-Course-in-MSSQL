@@ -186,6 +186,24 @@ DROP PROC nombre_procedimiento
 NOTA: Para actualizar un procedimiento almacenado es la misma estructura, pero cambiando el inicio de 'CREATE PROC nombre_procedimiento' -> 'ALTER PROC nombre_procedimiento'
 
 
+/////////////////// Vistas ///////////////////
+
+ Una vista actúa como una tabla virtual que muestra los resultados de una consulta almacenada, generalmente una declaración SELECT, y no almacena datos propios, sino que recupera información de tablas base o de otras vistas.
+ Se puede usar directamente en consultas SQL, como si fuera una tabla real, y es útil para ocultar la lógica compleja de las relaciones entre tablas, así como para mejorar la seguridad al limitar el acceso a ciertos datos.
+
+Para crear una vista se usa la siguiente sintaxis:
+CREATE VIEW nombre_vista
+AS
+setencia_sql
+
+Para eliminar una vista, se hace de la siguiente manera:
+DROP VIEW nombre_vista
+
+NOTA: Para actualizar una vista es la misma estructura, pero cambiando el inicio de 'CREATE VIEW nombre_vista' -> 'ALTER VIEW nombre_vista'
+
+
+
+
 
 
 
