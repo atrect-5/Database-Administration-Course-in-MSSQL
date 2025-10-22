@@ -11,10 +11,10 @@ Table Values (Devuelve una tabla)
 	-> Devuelven tablas de resultados de consultas.
 Funciones deterministas:
 	-> Siempre que se manden los mismos valores como parámetro, retornara el mismo resultado. Por ejemplo, si la función suma 2 números, siempre que se manden los mismos 2 números retornara el mismo resultado.
-Funciones no deterministas:
+Funciones no determinísticas:
 	-> Puede tener variaciones en la salida aunque se llame con los mismos parámetros. Por ejemplo, funciones basadas en fechas (ya que la fecha va cambiando) o con datos aleatorios.
 
-SQL Server también cuenta con sus propias funciones integradas:
+SQL Server también cuenta con sus propias funciones integradas (built-in):
 Funciones de agregación:
 	-> Realizan cálculos para retornar un solo valor. Por ejemplo, Count, Max, etc.
 Funciones analíticas:
@@ -131,12 +131,12 @@ Puedes ver las funciones que has creado en: 'Explorador de objetos > Bases de da
 
 Es un objeto almacenado en una base de datos que se activa automáticamente cuando ocurre un evento específico en una tabla o vista. Los eventos que activan los triggers pueden ser tanto Insert, Update o Delete. No se usa en SELECT, ya que este no cambia el contenido de una base de datos.
 La desventaja de los triggers, no son portables, solo puedes usarlos en los motores SQL en donde los creaste.
-Se deben usar con cuidado, ya que pueden llegar a consumir todos los recursos del servidor si por un error se llegan a activar muchos en cascada, ya que suelen consumir muchos recursos.
+Se deben usar con cuidado, ya que pueden llegar a consumir todos los recursos del servidor si por un error se activan muchos en cascada, pues suelen consumir muchos recursos.
 
 Existen 2 disparadores para los triggers:
 AFTER : Se activa únicamente después de que todas las operaciones especificadas en la sentencia SQL que lo desencadenó se hayan ejecutado correctamente, incluyendo las acciones en cascada de restricciones de clave externa y las comprobaciones de restricciones CHECK.
 
-INSTEAD OF: Anula la acción desencadenante y ejecuta sus propias sentencias en su lugar, lo cual es especialmente útil en vistas para redirigir operaciones a tablas subyacentes.
+INSTEAD OF: Anula la acción desencadenante y ejecuta sus propias sentencias en su lugar, lo cual es especialmente útil en vistas para redirigir operaciones hacia las tablas subyacentes.
 
 NOTA: Los disparadores AFTER no pueden definirse sobre vistas, mientras que los INSTEAD OF sí pueden, aunque no se pueden crear sobre vistas definidas con WITH CHECK OPTION
 
@@ -144,7 +144,7 @@ Para crearlos, se utiliza esta sintaxis:
 CREATE TRIGGER nombre_trigger
 ON tabla_objetivo
 { FOR | AFTER }
-{ [ INSERT ] [ , ] [ UPDDATE ] [ , ] [ DELETE ] }
+{ [ INSERT ] [ , ] [ UPDATE ] [ , ] [ DELETE ] }
 AS
 {
 	declaracion_sql
@@ -162,7 +162,7 @@ NOTA: Para actualizar un trigger es la misma estructura, pero cambiando el inici
 
 Son un conjunto de instrucciones SQL precompiladas y almacenadas en una base de datos, que puede ejecutarse bajo demanda para realizar tareas específicas como consultas, inserciones, actualizaciones o eliminaciones de datos.
 
-Puede tener parametros de entrada y salida, parametros para el bloque, lote o procedimiento que lo mando a llamar. Puede tener instrucciones sobre bases de datos y ejecutar otros procedimientos almacenados. 
+Puede tener parámetros de entrada y salida, parámetros para el bloque, lote o procedimiento que lo mandó a llamar. Puede contener instrucciones sobre bases de datos y ejecutar otros procedimientos almacenados. 
 Devuelven un valor de estado (si fue exitosa o no una accion).
 
 También existen tipos de procedimientos almacenados que se definen en T-SQL cuando se crean:
@@ -173,7 +173,7 @@ De sistema -> Pertenecen a SQL Server y se utilizan para tareas administrativas.
 Para crear un procedimiento almacenado se usa la siguiente sintaxis:
 CREATE PROCEDURE/PROC nombre_procedimiento
 [ {@nombre_parametro tipo_dato_parametro }
-	[ = default ]
+	[ = default_value ]
 [ OUT | INPUT ] ] [ ,...n ]
 AS
 {
@@ -200,10 +200,3 @@ Para eliminar una vista, se hace de la siguiente manera:
 DROP VIEW nombre_vista
 
 NOTA: Para actualizar una vista es la misma estructura, pero cambiando el inicio de 'CREATE VIEW nombre_vista' -> 'ALTER VIEW nombre_vista'
-
-
-
-
-
-
-
