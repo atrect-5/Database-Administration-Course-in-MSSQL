@@ -129,9 +129,9 @@ Puedes ver las funciones que has creado en: 'Explorador de objetos > Bases de da
 
 /////////////////// Triggers ///////////////////
 
-Es un objeto almacenado en una base de datos que se activa automáticamente cuando ocurre un evento específico en una tabla o vista. Los eventos que activan los triggers pueden ser tanto Insert, Update o Delete. No se usa en SELECT, ya que este no cambia el conteenido de una base de datos.
+Es un objeto almacenado en una base de datos que se activa automáticamente cuando ocurre un evento específico en una tabla o vista. Los eventos que activan los triggers pueden ser tanto Insert, Update o Delete. No se usa en SELECT, ya que este no cambia el contenido de una base de datos.
 La desventaja de los triggers, no son portables, solo puedes usarlos en los motores SQL en donde los creaste.
-Se deben usar con cuidado, ya que pueden llegar a consumir todos los recursos del servidor si por un error se llegan a aactivar muchos en cascada, ya que suelen consumir muchos recursos.
+Se deben usar con cuidado, ya que pueden llegar a consumir todos los recursos del servidor si por un error se llegan a activar muchos en cascada, ya que suelen consumir muchos recursos.
 
 Existen 2 disparadores para los triggers:
 AFTER : Se activa únicamente después de que todas las operaciones especificadas en la sentencia SQL que lo desencadenó se hayan ejecutado correctamente, incluyendo las acciones en cascada de restricciones de clave externa y las comprobaciones de restricciones CHECK.
@@ -141,7 +141,6 @@ INSTEAD OF: Anula la acción desencadenante y ejecuta sus propias sentencias en 
 NOTA: Los disparadores AFTER no pueden definirse sobre vistas, mientras que los INSTEAD OF sí pueden, aunque no se pueden crear sobre vistas definidas con WITH CHECK OPTION
 
 Para crearlos, se utiliza esta sintaxis:
-/***** Trigger de inserción con after e inserted *****/
 CREATE TRIGGER nombre_trigger
 ON tabla_objetivo
 { FOR | AFTER }
@@ -158,6 +157,33 @@ DROP TRIGGER nombre_trigger
 
 NOTA: Para actualizar un trigger es la misma estructura, pero cambiando el inicio de 'CREATE TRIGGER nombre_trigger' -> 'ALTER TRIGGER nombre_trigger'
 
+
+/////////////////// Procedimientos Almacenados///////////////////
+
+Son un conjunto de instrucciones SQL precompiladas y almacenadas en una base de datos, que puede ejecutarse bajo demanda para realizar tareas específicas como consultas, inserciones, actualizaciones o eliminaciones de datos.
+
+Puede tener parametros de entrada y salida, parametros para el bloque, lote o procedimiento que lo mando a llamar. Puede tener instrucciones sobre bases de datos y ejecutar otros procedimientos almacenados. 
+Devuelven un valor de estado (si fue exitosa o no una accion).
+
+También existen tipos de procedimientos almacenados que se definen en T-SQL cuando se crean:
+CLR (Common Language Runtime) -> Son creados por los desarrolladores para realizar tareas específicas dentro de una base de datos. Estos procedimientos se almacenan en bases de datos definidas por el usuario. Pueden implementarse utilizando Transact-SQL o como referencias a métodos del CLR de .NET Framework.
+	-> Dentro de estos, existen también los temporales, que se que se almacenan en TempDB
+De sistema -> Pertenecen a SQL Server y se utilizan para tareas administrativas. Tienen nombres que comienzan con el prefijo "sp_" (stored procedures), se almacenan físicamente en la base de datos Resource y se muestran lógicamente en el esquema sys de cada base de datos.
+
+Para crear un procedimiento almacenado se usa la siguiente sintaxis:
+CREATE PROCEDURE/PROC nombre_procedimiento
+[ {@nombre_parametro tipo_dato_parametro }
+	[ = default ]
+[ OUT | INPUT ] ] [ ,...n ]
+AS
+{
+	[ ; ] [ ...n ] |
+}
+
+Para eliminar un procedimiento almacenado, se hace de la siguiente manera:
+DROP PROC nombre_procedimiento
+
+NOTA: Para actualizar un procedimiento almacenado es la misma estructura, pero cambiando el inicio de 'CREATE PROC nombre_procedimiento' -> 'ALTER PROC nombre_procedimiento'
 
 
 
