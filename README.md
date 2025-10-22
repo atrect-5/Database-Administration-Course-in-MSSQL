@@ -15,7 +15,11 @@ Aquí encontrarás archivos con instrucciones y ejemplos de código SQL que cubr
 - Gestionar usuarios e inicios de sesion
 - Gestionar roles de servidor y de bases de datos
 - Autorizar y denegar acceso a objetos
-- Gestion de copias de seguridad de una base de datos
+- Gestión de copias de seguridad y restauración de bases de datos (DRP).
+- Cifrado de datos en reposo con Transparent Data Encryption (TDE).
+- Enmascaramiento de datos sensibles con Dynamic Data Masking (DDM).
+- Creación y uso de Funciones, Vistas y Procedimientos Almacenados.
+- Implementación de Triggers para automatizar acciones.
 
 Cada archivo está diseñado para practicar y entender conceptos clave de la administración de SQL Server. Puedes abrirlos y ejecutarlos en tu entorno de SQL Server para experimentar y aprender de manera práctica.
 
@@ -38,7 +42,11 @@ Cada archivo está diseñado para practicar y entender conceptos clave de la adm
   - Realizar diferentes tipos de **Copias de Seguridad** (Full, Diferencial, Log) y **Restauraciones** de bases de datos.
   - Proteger datos en reposo mediante **Transparent Data Encryption (TDE)**.
   - Ocultar datos sensibles en los resultados de consultas con **Dynamic Data Masking (DDM)**.
-- **`4-Funciones, vistas, procedimientos y triggers`**:
+- **`4-Funciones, vistas, procedimientos y triggers`**: Este módulo se enfoca en los objetos de programación que permiten encapsular lógica y automatizar tareas en la base de datos. En concreto:
+  - Crear y utilizar **Funciones** (escalares y de tabla) para reutilizar código y simplificar cálculos.
+  - Definir **Vistas** para simplificar consultas complejas y mejorar la seguridad de los datos.
+  - Implementar **Procedimientos Almacenados** para ejecutar bloques de código T-SQL precompilados y parametrizados.
+  - Desarrollar **Triggers** para automatizar acciones en respuesta a eventos de modificación de datos (`INSERT`, `UPDATE`, `DELETE`).
 
 ## Uso
 1. Abre los archivos `.sql` en SQL Server Management Studio (SSMS) o tu editor SQL favorito.
