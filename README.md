@@ -20,6 +20,7 @@ Aquí encontrarás archivos con instrucciones y ejemplos de código SQL que cubr
 - Enmascaramiento de datos sensibles con Dynamic Data Masking (DDM).
 - Creación y uso de Funciones, Vistas y Procedimientos Almacenados.
 - Implementación de Triggers para automatizar acciones.
+- Automatización de tareas administrativas con **SQL Server Agent**.
 
 Cada archivo está diseñado para practicar y entender conceptos clave de la administración de SQL Server. Puedes abrirlos y ejecutarlos en tu entorno de SQL Server para experimentar y aprender de manera práctica.
 
@@ -47,6 +48,11 @@ Cada archivo está diseñado para practicar y entender conceptos clave de la adm
   - Definir **Vistas** para simplificar consultas complejas y mejorar la seguridad de los datos.
   - Implementar **Procedimientos Almacenados** para ejecutar bloques de código T-SQL precompilados y parametrizados.
   - Desarrollar **Triggers** para automatizar acciones en respuesta a eventos de modificación de datos (`INSERT`, `UPDATE`, `DELETE`).
+- **`5-Automatizar la administración`**: Este módulo explora las herramientas y técnicas para automatizar tareas administrativas repetitivas, mejorando la eficiencia y la confiabilidad. En concreto:
+  - Comprender las diferentes opciones de automatización como **SQL Server Agent**, **Planes de Mantenimiento** y **PowerShell**.
+  - Crear y configurar **Trabajos (Jobs)** en SQL Server Agent para ejecutar tareas programadas.
+  - Definir **Pasos (Steps)** con lógica T-SQL dentro de un trabajo.
+  - Programar la ejecución de trabajos mediante **Programaciones (Schedules)**.
 
 ## Uso
 1. Abre los archivos `.sql` en SQL Server Management Studio (SSMS) o tu editor SQL favorito.

@@ -1,0 +1,40 @@
+/////////////////// Automatizar la administración ///////////////////
+
+La automatización nos ayuda a evitar hacer tareas repetitivas y que se realicen de manera consistente.
+Ayuda a reducir la carga administrativa, y ayuda a la ejecución confiable y constante de tareas rutinarias.
+
+Hay varias opciones en SQL Server que nos ayudan a automatizar tareas:
+SQL Agent: es la opción principal para los administradores de bases de datos SQL Server.
+Planes de mantenimiento: proporciona un asistente que guía a los administradores para configurar tareas regulares y mantener el buen estado de SQL Server.
+PowerShell: una consola de línea de comandos que nos permite generar scripts para la automatización de tareas tanto dentro como fuera de SQL Server.
+System Center Operations Manager (SCOM): conjunto de herramientas a nivel empresarial que permite supervisar servidores, incluyendo los de SQL Server. Es una herramienta de monitoreo de Microsoft diseñada para supervisar la salud, el rendimiento y la disponibilidad de infraestructuras de TI.
+
+
+///// SQL Agent /////
+
+Se ejecuta como un servicio de Windows y actúa como un programador de trabajos para automatizar tareas administrativas en SQL Server.
+Su función principal consiste en planificar y ejecutar trabajos programados, como copias de seguridad, mantenimiento de bases de datos, replicación y ejecución de scripts T-SQL, SSIS o comandos del sistema operativo.
+Nos permite configurar trabajos compuestos por múltiples pasos, programar su ejecución según frecuencias específicas (única, diaria, semanal o mensual) y responder a eventos, como errores de gravedad determinada o condiciones personalizadas.
+Tiene 3 modos de inicio disponibles:
+Manual, Automático y Deshabilitado
+
+NOTA: SQL Agent no está disponible en la versión Express.
+
+Para habilitar SQL Agent, primero debes ir a la aplicación de servicios de Windows (Servicios).
+Una vez dentro, debes buscar el servicio SQL Server Agent (entre paréntesis debe venir la instancia SQL Server que queremos activar).
+El tipo de inicio estará deshabilitado, para habilitarlo debes dar clic derecho y presionar la opción 'Iniciar' (Aquí mismo puedes detener el servicio cuando no lo requieras).
+Una vez iniciado, cambiará a modo Manual.
+Lo podremos ver disponible como un directorio en el 'Explorador de objetos > Agente SQL Server' en SSMS.
+
+Para empezar a realizar automatización de tareas, debemos dirigirnos a: 'Explorador de objetos > Agente SQL Server > Trabajos (clic derecho) > Nuevo Trabajo', esto abrirá una ventana donde nos permitirá darle forma a la automatización de algún trabajo que queremos realizar.
+Nos permitirá asignarle un nombre al trabajo para poder reconocerlo (es recomendable darle un nombre que identifique lo que realiza y si trabaja con una base de datos en específico).
+También aquí se puede agregar una descripción, modificar el propietario y la categoría del trabajo.
+En la parte izquierda de esta ventana, tendremos acceso a otras paginas de configuracion: 
+Pasos -> Nos servirá para incluir los pasos que se seguirán en la automatización. Para agregar un nuevo paso, se debe dar clic en el botón inferior 'Nuevo', que abrirá una nueva ventana donde podremos configurar cada paso, como el nombre del paso, la base de datos donde se ejecutará este paso, el tipo de instrucciones que se realizarán y las instrucciones mismas a realizar. En las opciones avanzadas, puedes elegir qué acción realizar en caso de éxito o error (avanzar al siguiente, detener, informar).
+Programaciones -> Aquí modificaremos la frecuencia con la que se realizará el trabajo. Para agregar una, también debemos dar clic en el botón en la parte inferior 'Nuevo' para ver la ventana de configuración de una nueva programación.
+Alertas -> Se configuran las alertas de la ejecución del trabajo.
+Notificaciones -> Nos permite configurar si queremos ser notificados cuando se realice un trabajo (si tiene éxito, si falla, etc.).
+Destinos -> Nos permite configurar las instancias de servidor donde se ejecutará el trabajo.
+
+Para ver los trabajos que hemos creado, debemos dirigirnos hacia:  'Explorador de objetos > Agente SQL Server > Trabajos', ahí se desplegaran los trabajos que hay en el servidor.
+Si damos clic derecho en el trabajo que creamos, y luego clic en 'Iniciar trabajo en el paso...', ejecutaremos el trabajo sin necesidad de que sea la hora programada que le dimos.
