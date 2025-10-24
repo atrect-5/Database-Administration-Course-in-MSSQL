@@ -1,0 +1,42 @@
+/////////////////// Monitorizar los errores de MSSQL ///////////////////
+
+Es importante saber monitorizar los errores, ya que esto nos permitirá saber si algo esta fallando para poder solucionarlo.
+Los errores en SQL Server son objetos en si, lo que nos permite acceder a sus propiedades.
+Las propiedades de los errores en SQL Server son:
+* Codigo de error (ERROR_NUMBER)-> Nos indica el codigo del error. Por ejemplo, el error 547 indica una violación de restricción de clave externa.
+* Mensaje de error (ERROR_MESSAGE) -> Es un comentario de la causa del error, lo que nos ayudara a identificar el problema.
+* Severidad (ERROR_SEVERITY) -> Nos indica que tan grave es el error. Devuelve el nivel de severidad del error (de 0 a 25).
+* Origen (ERROR_PROCEDURE) -> Devuelve el nombre del procedimiento almacenado o función donde ocurrió el error.
+* Estado (ERROR_STATE) -> Devuelve el estado del error, un número adicional que ayuda a identificar el contexto del error. Útil para depurar, ya que algunos errores tienen múltiples estados que indican diferentes causas.
+
+Estas propiedades pueden recuperarse dentro de un bloque CATCH en una construcción TRY...CATCH
+Como ejemplo:
+BEGIN TRY
+    -- Código que puede causar error
+END TRY
+BEGIN CATCH
+    SELECT 
+        ERROR_NUMBER() AS NumeroError,
+        ERROR_MESSAGE() AS MensajeError,
+        ERROR_PROCEDURE() AS Procedimiento,
+        ERROR_SEVERITY() AS Severidad,
+        ERROR_STATE() AS Estado;
+END CATCH
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

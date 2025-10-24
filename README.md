@@ -53,6 +53,7 @@ Cada archivo está diseñado para practicar y entender conceptos clave de la adm
   - Crear y configurar **Trabajos (Jobs)** en SQL Server Agent para ejecutar tareas programadas.
   - Definir **Pasos (Steps)** con lógica T-SQL dentro de un trabajo.
   - Programar la ejecución de trabajos mediante **Programaciones (Schedules)**.
+- **`6- Monitoreo y auditorias`**
 
 ## Uso
 1. Abre los archivos `.sql` en SQL Server Management Studio (SSMS) o tu editor SQL favorito.
