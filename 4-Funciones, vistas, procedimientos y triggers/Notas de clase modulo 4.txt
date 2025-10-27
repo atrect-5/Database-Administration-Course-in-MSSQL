@@ -133,12 +133,23 @@ Es un objeto almacenado en una base de datos que se activa automáticamente cuan
 La desventaja de los triggers, no son portables, solo puedes usarlos en los motores SQL en donde los creaste.
 Se deben usar con cuidado, ya que pueden llegar a consumir todos los recursos del servidor si por un error se activan muchos en cascada, pues suelen consumir muchos recursos.
 
+Existen varios tipos de triggers
+DML (Data Manipulation Language) -> Se activan en respuesta a operaciones de manipulación de datos.
+	-> Activados por: INSERT, UPDATE, DELETE
+
+DDL (Data Definition Language) -> Responden a eventos que modifican la estructura de la base de datos
+	-> Activados por: CRETE, ALTER, DROP, GRANT, DENY, REVOKE
+
+Logon  -> Controlan el acceso al servidor y se activan cuando un usuario inicia sesión. Se activan después de la autenticación exitosa, pero antes de que se establezca la autenticación del usuario.
+
 Existen 2 disparadores para los triggers:
 AFTER : Se activa únicamente después de que todas las operaciones especificadas en la sentencia SQL que lo desencadenó se hayan ejecutado correctamente, incluyendo las acciones en cascada de restricciones de clave externa y las comprobaciones de restricciones CHECK.
 
 INSTEAD OF: Anula la acción desencadenante y ejecuta sus propias sentencias en su lugar, lo cual es especialmente útil en vistas para redirigir operaciones hacia las tablas subyacentes.
 
 NOTA: Los disparadores AFTER no pueden definirse sobre vistas, mientras que los INSTEAD OF sí pueden, aunque no se pueden crear sobre vistas definidas con WITH CHECK OPTION
+
+Cuando se activa un trigger se crean la tabla Inserted (donde se almacenan los datos que serán insertados) y deleted (donde se almacenan los datos que serán eliminados). En caso de un UPDATE, Inserted contiene los nuevos datos mientras que deleted contiene los datos antiguos.
 
 Para crearlos, se utiliza esta sintaxis:
 CREATE TRIGGER nombre_trigger
@@ -150,7 +161,6 @@ AS
 	declaracion_sql
 	[,...n]
 }
-
 
 Para eliminar un trigger, se hace de la siguiente manera:
 DROP TRIGGER nombre_trigger

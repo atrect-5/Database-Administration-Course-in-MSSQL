@@ -102,8 +102,22 @@ SELECT * FROM dbo.Estudiantes
 GO
 
 
+-- Se crea un trigger para saber cuando se manipulan datos en la base de datos (DML) y ver las tablas que se crean al activarse
+CREATE TRIGGER TR_Estudiantes ON dbo.Estudiantes
+AFTER INSERT, UPDATE, DELETE
+AS
+	SELECT * FROM inserted
+	SELECT * FROM deleted
+GO
+
+-- Se actualizan los datos, lo que permitira ver ambas tablas, ya que se agregan nuevos datos y se eliminan datos desactualizados
+UPDATE Estudiantes SET NombreEstudiante = 'Samuel' 
+WHERE NombreEstudiante = 'Miguel'
+
+
 -- Para eliminar un trigger
 DROP TRIGGER IF EXISTS dbo.INSERT_Estudiantes;
 DROP TRIGGER IF EXISTS dbo.UPDATE_Estudiantes;
 DROP TRIGGER IF EXISTS dbo.DELETE_Estudiantes;
+DROP TRIGGER IF EXISTS dbo.TR_Estudiantes;
 GO
