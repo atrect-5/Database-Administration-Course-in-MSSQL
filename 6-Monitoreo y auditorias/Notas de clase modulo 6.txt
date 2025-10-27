@@ -3,7 +3,7 @@
 Es importante saber monitorizar los errores, ya que esto nos permitirá saber si algo esta fallando para poder solucionarlo.
 Los errores en SQL Server son objetos en si, lo que nos permite acceder a sus propiedades.
 Las propiedades de los errores en SQL Server son:
-* Codigo de error (ERROR_NUMBER)-> Nos indica el codigo del error. Por ejemplo, el error 547 indica una violación de restricción de clave externa.
+* Código de error (ERROR_NUMBER)-> Nos indica el codigo del error. Por ejemplo, el error 547 indica una violación de restricción de clave externa.
 * Mensaje de error (ERROR_MESSAGE) -> Es un comentario de la causa del error, lo que nos ayudara a identificar el problema.
 * Severidad (ERROR_SEVERITY) -> Nos indica que tan grave es el error. Devuelve el nivel de severidad del error (de 0 a 25).
 * Origen (ERROR_PROCEDURE) -> Devuelve el nombre del procedimiento almacenado o función donde ocurrió el error.
@@ -23,8 +23,20 @@ BEGIN CATCH
         ERROR_STATE() AS Estado;
 END CATCH
 
+/////////////////// Configurar correo electrónico ///////////////////
 
+Esto nos sirve principalmente para enviar notificaciones y alertas generadas por eventos en el servidor, como errores, procesos de copias de seguridad, la ejecución de procedimientos almacenados o cualquier otro evento que requiera supervisión.
 
+Para configurar el correo electrónico en SQL Server, debes dirigirte hacia: 'Explorador de objetos > Administración > Correo electrónico de bases de datos (clic derecho) > Configurar correo electrónico de bases de datos'. 
+Aquí se nos abrirá una nueva ventana para la configuración del correo.
+La primer ventana es para explicar para que sirve el Agente de configuración.
+La segunda ventana es para seleccionar la tarea de configuración, si quieres crear un nuevo perfil, administrar cuentas y perfiles ya creados, administrar la seguridad del perfil o cambiar parámetros del sistema.
+
+El la ventana para crear un nuevo perfil, puedes asignarle un nombre, una descripción y con el botón 'Agregar', lo que abrirá otra ventana donde se configuraran los datos de las cuentas SMTP (Protocolo Simple de Transferencia de Correo), como el nombre de la cuenta, la descripción, la dirección de correo, el servidor que usa (dependiendo del proveedor de correo que uses.), etc.
+
+Para revisar si se registro correctamente el correo, puedes ir a: 'Explorador de objetos > Administración > Correo electrónico de bases de datos (clic derecho) > Enviar correo electrónico de prueba', esto abrirá una ventana que te permitirá mandar un correo electrónico desde el correo que se configuro hacia otro correo que especifiques en esta ventana, para corroborar que este configurado de manera correcta.
+
+También puedes ir a: 'Explorador de objetos > Administración > Correo electrónico de bases de datos (clic derecho) >  Ver registro de correo electrónico de bases de datos' para consultar los registros relacionados con el correo electrónico registrado.
 
 
 
