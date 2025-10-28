@@ -3,7 +3,7 @@
 Es importante saber monitorizar los errores, ya que esto nos permitirá saber si algo esta fallando para poder solucionarlo.
 Los errores en SQL Server son objetos en si, lo que nos permite acceder a sus propiedades.
 Las propiedades de los errores en SQL Server son:
-* Código de error (ERROR_NUMBER)-> Nos indica el codigo del error. Por ejemplo, el error 547 indica una violación de restricción de clave externa.
+* Código de error (ERROR_NUMBER)-> Nos indica el código del error. Por ejemplo, el error 547 indica una violación de restricción de clave externa.
 * Mensaje de error (ERROR_MESSAGE) -> Es un comentario de la causa del error, lo que nos ayudara a identificar el problema.
 * Severidad (ERROR_SEVERITY) -> Nos indica que tan grave es el error. Devuelve el nivel de severidad del error (de 0 a 25).
 * Origen (ERROR_PROCEDURE) -> Devuelve el nombre del procedimiento almacenado o función donde ocurrió el error.
@@ -60,18 +60,26 @@ CREATE TABLE nombre_tabla(
 )
 WITH (SYSTEM_VERSIONING = ON)  -- Se activa el versionamiento
 
--- Se mostraran todos los datos que han estado en la tabla, inclyendo el momento que empezaron a ser validos (SysStartTime) y cuando dejaron de ser validos por que fueron actualizados o eliminados (SysEndTime)
+-- Se mostraran todos los datos que han estado en la tabla, incluyendo el momento que empezaron a ser validos (SysStartTime) y cuando dejaron de ser validos por que fueron actualizados o eliminados (SysEndTime)
 SELECT * FROM Materias
 	FOR SYSTEM_TIME ALL
 
+/////////////////// Eventos extendidos ///////////////////
 
+Son una herramienta de monitoreo de rendimiento ligera que permite recopilar datos para supervisar y solucionar problemas sin afectar significativamente el rendimiento del sistema.
 
+Son una alternativa moderna y más eficiente al antiguo SQL Trace y SQL Server Profiler, ofreciendo una visión escalable del comportamiento de SQL Server con un impacto mínimo en los recursos del sistema.
 
+Paquetes: Son los objetos usados para obtener y procesar datos cuando se ejecuta una sesión de Eventos extendidos
+Destinos: Son los consumidores de eventos que pueden recibir datos durante una sesión de eventos extendidos
+Sesiones: Son las sesiones que se crean con los eventos extendidos
 
+Para crear un evento extendido, nos dirigimos hacia 'Explorador de objetos > Administración > Eventos extendidos > Sesiones (clic derecho) > Nueva sesión' esto nos abrirá una nueva ventana para configurar nuestra sesión para el evento extendido.
+Aquí podremos asignarle un nombre a nuestra sesión y si lo queremos, podremos escoger una plantilla. También podemos decidir cuando queremos que se inicie y si queremos realizar un seguimiento de como se relacionan los eventos entre si.
+En la siguiente pagina podemos seleccionar los eventos que vamos a capturar. Si das un clic sobre la lista de eventos, te mostrara a que hace referencia el evento en la parte inferior; Si das doble clic, se agregara a la lista de eventos seleccionados en la parte derecha. En el botón de 'Configurar' en la parte superior derecha, podemos ver cuales son los atributos que podemos obtener al rastrear los eventos.
 
+Los eventos extendidos también dan la opción de guardar la información de rastreo en archivos externos (en la opción 'Almacenamiento de datos'). Así como también otras configuraciones como el modo de retención de eventos, latencia máxima de envió, tamaño máximo de memoria y eventos y particiones en memoria (Esto en opciones avanzadas).
 
+Una vez creado, aparecerá en  'Explorador de objetos > Administración > Eventos extendidos > Sesiones' y para poder iniciar la sesión, debemos dar clic derecho sobre ella en el explorador de objetos y luego en 'Iniciar sesión'.
 
-
-
-
-
+Cuando ocurre un evento que quieres rastrear, puedes ir a  'Explorador de objetos > Administración > Eventos extendidos > Sesiones > tu_sesion (clic derecho) > Observar datos en directo'.
