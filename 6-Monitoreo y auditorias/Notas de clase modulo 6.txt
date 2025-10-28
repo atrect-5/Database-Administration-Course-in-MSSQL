@@ -43,10 +43,26 @@ También puedes ir a: 'Explorador de objetos > Administración > Correo electró
 Como se vio en un modulo pasado, se pueden usar los triggers para auditar tablas creando una tabla donde se almacenen los datos de los movimientos realizados y quien y cuando los realizo.
 Esto hay que tener cuidado cuando aplicarlo, ya que los triggers pueden llegar a consumir muchos recursos.
 
+/////////////////// Tablas temporales ///////////////////
 
+Son una característica de base de datos que permite mantener un historial completo de los cambios en los datos, facilitando el análisis de los datos en cualquier momento del pasado.
+Se compone de dos tablas: una tabla actual que almacena los datos actuales y una tabla de historial que guarda automáticamente las versiones anteriores de cada fila cada vez que se realiza una operación de inserción, actualización o eliminación.
 
+Para que esta característica funcione, la tabla debe incluir dos columnas de tipo datetime2 que se definen como GENERATED ALWAYS AS ROW START y GENERATED ALWAYS AS ROW END  y una cláusula PERIOD FOR SYSTEM_TIME que especifique las columnas de inicio y fin del periodo.
+La activación de la versión del sistema se realiza mediante la cláusula SYSTEM_VERSIONING = ON.
 
+Ejemplo:
+CREATE TABLE nombre_tabla(
+	Id	INT PRIMARY KEY, -- Requiere Primary Key
+	SysStartTime DATETIME2 GENERATED ALWAYS AS ROW START NOT NULL,	--Almacena la fecha y hora en que la fila comenzó a ser válida
+	SysEndTime	DATETIME2 GENERATED ALWAYS AS ROW END NOT NULL, --Almacena la fecha y hora en que la fila dejó de ser válida
+	PERIOD FOR SYSTEM_TIME (SysStartTime, SysEndTime) -- indica las columnas que serán el incido y fin del periodo
+)
+WITH (SYSTEM_VERSIONING = ON)  -- Se activa el versionamiento
 
+-- Se mostraran todos los datos que han estado en la tabla, inclyendo el momento que empezaron a ser validos (SysStartTime) y cuando dejaron de ser validos por que fueron actualizados o eliminados (SysEndTime)
+SELECT * FROM Materias
+	FOR SYSTEM_TIME ALL
 
 
 
