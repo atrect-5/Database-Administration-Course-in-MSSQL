@@ -1,10 +1,10 @@
 /////////////////// Monitorizar los errores de MSSQL ///////////////////
 
-Es importante saber monitorizar los errores, ya que esto nos permitirá saber si algo esta fallando para poder solucionarlo.
-Los errores en SQL Server son objetos en si, lo que nos permite acceder a sus propiedades.
+Es importante saber monitorizar los errores, ya que esto nos permitirá saber si algo está fallando para poder solucionarlo.
+Los errores en SQL Server son objetos en sí, lo que nos permite acceder a sus propiedades.
 Las propiedades de los errores en SQL Server son:
 * Código de error (ERROR_NUMBER)-> Nos indica el código del error. Por ejemplo, el error 547 indica una violación de restricción de clave externa.
-* Mensaje de error (ERROR_MESSAGE) -> Es un comentario de la causa del error, lo que nos ayudara a identificar el problema.
+* Mensaje de error (ERROR_MESSAGE) -> Es un comentario sobre la causa del error, lo que nos ayudará a identificar el problema.
 * Severidad (ERROR_SEVERITY) -> Nos indica que tan grave es el error. Devuelve el nivel de severidad del error (de 0 a 25).
 * Origen (ERROR_PROCEDURE) -> Devuelve el nombre del procedimiento almacenado o función donde ocurrió el error.
 * Estado (ERROR_STATE) -> Devuelve el estado del error, un número adicional que ayuda a identificar el contexto del error. Útil para depurar, ya que algunos errores tienen múltiples estados que indican diferentes causas.
@@ -29,12 +29,12 @@ Esto nos sirve principalmente para enviar notificaciones y alertas generadas por
 
 Para configurar el correo electrónico en SQL Server, debes dirigirte hacia: 'Explorador de objetos > Administración > Correo electrónico de bases de datos (clic derecho) > Configurar correo electrónico de bases de datos'. 
 Aquí se nos abrirá una nueva ventana para la configuración del correo.
-La primer ventana es para explicar para que sirve el Agente de configuración.
+La primera ventana es para explicar para qué sirve el Agente de configuración.
 La segunda ventana es para seleccionar la tarea de configuración, si quieres crear un nuevo perfil, administrar cuentas y perfiles ya creados, administrar la seguridad del perfil o cambiar parámetros del sistema.
 
-El la ventana para crear un nuevo perfil, puedes asignarle un nombre, una descripción y con el botón 'Agregar', lo que abrirá otra ventana donde se configuraran los datos de las cuentas SMTP (Protocolo Simple de Transferencia de Correo), como el nombre de la cuenta, la descripción, la dirección de correo, el servidor que usa (dependiendo del proveedor de correo que uses.), etc.
+En la ventana para crear un nuevo perfil, puedes asignarle un nombre, una descripción y, con el botón 'Agregar', se abrirá otra ventana donde se configurarán los datos de las cuentas SMTP (Protocolo Simple de Transferencia de Correo), como el nombre de la cuenta, la descripción, la dirección de correo, el servidor que usa (dependiendo del proveedor de correo que uses), etc.
 
-Para revisar si se registro correctamente el correo, puedes ir a: 'Explorador de objetos > Administración > Correo electrónico de bases de datos (clic derecho) > Enviar correo electrónico de prueba', esto abrirá una ventana que te permitirá mandar un correo electrónico desde el correo que se configuro hacia otro correo que especifiques en esta ventana, para corroborar que este configurado de manera correcta.
+Para revisar si se registró correctamente el correo, puedes ir a: 'Explorador de objetos > Administración > Correo electrónico de bases de datos (clic derecho) > Enviar correo electrónico de prueba'. Esto abrirá una ventana que te permitirá mandar un correo electrónico desde el correo que se configuró hacia otro correo que especifiques en esta ventana, para corroborar que esté configurado de manera correcta.
 
 También puedes ir a: 'Explorador de objetos > Administración > Correo electrónico de bases de datos (clic derecho) >  Ver registro de correo electrónico de bases de datos' para consultar los registros relacionados con el correo electrónico registrado.
 
@@ -42,7 +42,7 @@ También puedes ir a: 'Explorador de objetos > Administración > Correo electró
 
 Como se vio en un modulo pasado, se pueden usar los triggers para auditar tablas creando una tabla donde se almacenen los datos de los movimientos realizados y quien y cuando los realizo.
 Esto hay que tener cuidado cuando aplicarlo, ya que los triggers pueden llegar a consumir muchos recursos.
-
+ 
 /////////////////// Tablas temporales ///////////////////
 
 Son una característica de base de datos que permite mantener un historial completo de los cambios en los datos, facilitando el análisis de los datos en cualquier momento del pasado.
@@ -56,10 +56,10 @@ CREATE TABLE nombre_tabla(
 	Id	INT PRIMARY KEY, -- Requiere Primary Key
 	SysStartTime DATETIME2 GENERATED ALWAYS AS ROW START NOT NULL,	--Almacena la fecha y hora en que la fila comenzó a ser válida
 	SysEndTime	DATETIME2 GENERATED ALWAYS AS ROW END NOT NULL, --Almacena la fecha y hora en que la fila dejó de ser válida
-	PERIOD FOR SYSTEM_TIME (SysStartTime, SysEndTime) -- indica las columnas que serán el incido y fin del periodo
+	PERIOD FOR SYSTEM_TIME (SysStartTime, SysEndTime) -- indica las columnas que serán el inicio y fin del periodo
 )
 WITH (SYSTEM_VERSIONING = ON)  -- Se activa el versionamiento
-
+ 
 -- Se mostraran todos los datos que han estado en la tabla, incluyendo el momento que empezaron a ser validos (SysStartTime) y cuando dejaron de ser validos por que fueron actualizados o eliminados (SysEndTime)
 SELECT * FROM Materias
 	FOR SYSTEM_TIME ALL
@@ -77,9 +77,9 @@ Sesiones: Son las sesiones que se crean con los eventos extendidos
 Para crear un evento extendido, nos dirigimos hacia 'Explorador de objetos > Administración > Eventos extendidos > Sesiones (clic derecho) > Nueva sesión' esto nos abrirá una nueva ventana para configurar nuestra sesión para el evento extendido.
 Aquí podremos asignarle un nombre a nuestra sesión y si lo queremos, podremos escoger una plantilla. También podemos decidir cuando queremos que se inicie y si queremos realizar un seguimiento de como se relacionan los eventos entre si.
 En la siguiente pagina podemos seleccionar los eventos que vamos a capturar. Si das un clic sobre la lista de eventos, te mostrara a que hace referencia el evento en la parte inferior; Si das doble clic, se agregara a la lista de eventos seleccionados en la parte derecha. En el botón de 'Configurar' en la parte superior derecha, podemos ver cuales son los atributos que podemos obtener al rastrear los eventos.
-
+ 
 Los eventos extendidos también dan la opción de guardar la información de rastreo en archivos externos (en la opción 'Almacenamiento de datos'). Así como también otras configuraciones como el modo de retención de eventos, latencia máxima de envió, tamaño máximo de memoria y eventos y particiones en memoria (Esto en opciones avanzadas).
-
+ 
 Una vez creado, aparecerá en  'Explorador de objetos > Administración > Eventos extendidos > Sesiones' y para poder iniciar la sesión, debemos dar clic derecho sobre ella en el explorador de objetos y luego en 'Iniciar sesión'.
-
+ 
 Cuando ocurre un evento que quieres rastrear, puedes ir a  'Explorador de objetos > Administración > Eventos extendidos > Sesiones > tu_sesion (clic derecho) > Observar datos en directo'.
