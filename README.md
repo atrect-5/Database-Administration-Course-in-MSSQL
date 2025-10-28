@@ -21,6 +21,10 @@ Aquí encontrarás archivos con instrucciones y ejemplos de código SQL que cubr
 - Creación y uso de Funciones, Vistas y Procedimientos Almacenados.
 - Implementación de Triggers para automatizar acciones.
 - Automatización de tareas administrativas con **SQL Server Agent**.
+- Monitoreo de errores y manejo con bloques `TRY...CATCH`.
+- Configuración de **Correo Electrónico de Base de Datos** para alertas.
+- Uso de **Tablas Temporales** para mantener un historial de cambios en los datos.
+- Monitoreo avanzado con **Eventos Extendidos**.
 
 Cada archivo está diseñado para practicar y entender conceptos clave de la administración de SQL Server. Puedes abrirlos y ejecutarlos en tu entorno de SQL Server para experimentar y aprender de manera práctica.
 
@@ -53,8 +57,13 @@ Cada archivo está diseñado para practicar y entender conceptos clave de la adm
   - Crear y configurar **Trabajos (Jobs)** en SQL Server Agent para ejecutar tareas programadas.
   - Definir **Pasos (Steps)** con lógica T-SQL dentro de un trabajo.
   - Programar la ejecución de trabajos mediante **Programaciones (Schedules)**.
-- **`6- Monitoreo y auditorias`**
+- **`6-Monitoreo y auditorias`**: Este módulo se enfoca en las herramientas y técnicas para supervisar el rendimiento, capturar errores y auditar la actividad en SQL Server. En concreto:
+  - Monitorear y capturar errores de T-SQL utilizando bloques **TRY...CATCH**.
+  - Configurar el **Correo Electrónico de Base de Datos** para enviar notificaciones y alertas automáticas.
+  - Implementar **Tablas Temporales (System-Versioned)** para mantener un historial completo de los cambios en los datos.
+  - Crear y gestionar sesiones de **Eventos Extendidos** para un monitoreo de rendimiento ligero y avanzado, como alternativa a SQL Profiler.
 
+  
 ## Uso
 1. Abre los archivos `.sql` en SQL Server Management Studio (SSMS) o tu editor SQL favorito.
 2. Ejecuta los scripts para practicar los comandos de administración.
