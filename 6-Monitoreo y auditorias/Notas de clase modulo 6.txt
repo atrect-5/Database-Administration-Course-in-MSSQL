@@ -38,6 +38,13 @@ Para revisar si se registro correctamente el correo, puedes ir a: 'Explorador de
 
 También puedes ir a: 'Explorador de objetos > Administración > Correo electrónico de bases de datos (clic derecho) >  Ver registro de correo electrónico de bases de datos' para consultar los registros relacionados con el correo electrónico registrado.
 
+/////////////////// Auditar con triggers ///////////////////
+
+Como se vio en un modulo pasado, se pueden usar los triggers para auditar tablas creando una tabla donde se almacenen los datos de los movimientos realizados y quien y cuando los realizo.
+Esto hay que tener cuidado cuando aplicarlo, ya que los triggers pueden llegar a consumir muchos recursos.
+
+
+
 
 
 
